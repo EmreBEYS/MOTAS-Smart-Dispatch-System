@@ -1,0 +1,87 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Şoför Yönetimi{% endblock %} {% block content %}
+
+<div class="admin-page-header">
+    <div>
+        <h1>Şoför Yönetimi</h1>
+        <p>Sistemde kayıtlı şoförleri ve atanmış hat bilgilerini görüntüleyin.</p>
+    </div>
+
+    <a href="{{ url_for('admin_sofor_ekle') }}" class="admin-btn-primary">
+        + Şoför Ekle
+    </a>
+</div>
+
+<div class="admin-table-card">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ad Soyad</th>
+                <th>Telefon</th>
+                <th>Ehliyet No</th>
+                <th>Atanmış Hat</th>
+                <th>Durum</th>
+                <th>Kayıt Tarihi</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for sofor in soforler %}
+            <tr>
+                <td>#{{ sofor.sofor_id }}</td>
+
+                <td>
+                    <strong>{{ sofor.ad }} {{ sofor.soyad }}</strong>
+                </td>
+
+                <td>{{ sofor.telefon or "-" }}</td>
+
+                <td>{{ sofor.ehliyet_no or "-" }}</td>
+
+                <td>
+                    {% if sofor.hat_kodu %}
+                    <span class="type-badge">
+                            {{ sofor.hat_kodu }} - {{ sofor.hat_adi }}
+                        </span> {% else %}
+                    <span class="status-badge">
+                            Hat Atanmamış
+                        </span> {% endif %}
+                </td>
+
+                <td>
+                    <span class="status-badge">
+                        {{ sofor.durum or "Aktif" }}
+                    </span>
+                </td>
+
+                <td>
+                    {% if sofor.created_at %} {{ sofor.created_at.strftime("%d.%m.%Y %H:%M") }} {% else %} - {% endif %}
+                </td>
+
+                <td>
+                    <a href="{{ url_for('admin_sofor_detay', sofor_id=sofor.sofor_id) }}" class="admin-btn-small">
+                        Detay
+                    </a>
+
+                    <a href="{{ url_for('admin_sofor_duzenle', sofor_id=sofor.sofor_id) }}" class="admin-btn-secondary">
+                        Düzenle
+                    </a>
+
+                    <a href="{{ url_for('admin_sofor_sil', sofor_id=sofor.sofor_id) }}" class="admin-btn-danger" onclick="return confirm('Bu şoförü silmek istediğinize emin misiniz?')">
+                        Sil
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8" class="empty-table">
+                    Kayıtlı şoför bulunamadı.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

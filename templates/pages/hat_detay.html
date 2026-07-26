@@ -1,0 +1,162 @@
+{% extends 'base.html' %} {% block title %}{{ hat.hat_kodu }} Hat Detayı{% endblock %} {% block content %}
+
+<section class="hat-detay-section">
+    <div class="hat-detay-container">
+
+        <div class="hat-detay-ust">
+            <div>
+                <div class="hat-detay-kod">{{ hat.hat_kodu }}</div>
+                <h1>{{ hat.hat_kodu }} - {{ hat.hat_adi }}</h1>
+                <p>
+                    Bu sayfada hattın hareket saatleri, geçtiği duraklar ve güzergah bilgileri görüntülenmektedir.
+                </p>
+            </div>
+
+            <div class="hat-aktiflik">
+                {% if hat.aktif %} Aktif Hat {% else %} Pasif Hat {% endif %}
+            </div>
+        </div>
+
+        <div class="hat-tabs">
+            <button class="hat-tab-btn active" onclick="openHatTab(event, 'saatler')">
+                Hareket Saatleri
+            </button>
+            <button class="hat-tab-btn" onclick="openHatTab(event, 'duraklar')">
+                Geçtiği Duraklar
+            </button>
+            <button class="hat-tab-btn" onclick="openHatTab(event, 'guzergah')">
+                Hat Güzergahı
+            </button>
+            <button class="hat-tab-btn" onclick="openHatTab(event, 'hakkinda')">
+                Hat Hakkında
+            </button>
+        </div>
+
+        <div id="saatler" class="hat-tab-panel active">
+            <h2>Hareket Saatleri</h2>
+            <p class="hat-aciklama">
+                Sefer saatleri hafta içi, hafta sonu ve resmi tatil günlerine göre listelenmektedir. Resmi tatillerde hafta sonu sefer saatleri uygulanmaktadır.
+            </p>
+
+            {% for gun, yonler in sefer_gruplu.items() %}
+            <div class="sefer-gun-karti">
+                <div class="sefer-gun-baslik">
+                    {{ gun }}
+                </div>
+
+                <div class="sefer-iki-kolon">
+                    <div class="sefer-kolon">
+                        <div class="sefer-kolon-baslik">Gidiş</div>
+
+                        <div class="saatler-grid">
+                            {% for saat in yonler["Gidiş"] %}
+                            <span>{{ saat }}</span> {% else %}
+                            <p>Sefer bulunamadı.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="sefer-kolon">
+                        <div class="sefer-kolon-baslik">Dönüş</div>
+
+                        <div class="saatler-grid">
+                            {% for saat in yonler["Dönüş"] %}
+                            <span>{{ saat }}</span> {% else %}
+                            <p>Sefer bulunamadı.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div id="duraklar" class="hat-tab-panel">
+            <h2>Geçtiği Duraklar</h2>
+            <p class="hat-aciklama">
+                Hattın geçtiği duraklar durak sırasına göre listelenmektedir.
+            </p>
+
+            <div class="durak-zaman-cizgisi">
+                {% for durak in duraklar %}
+                <div class="hat-durak-item">
+                    <div class="hat-durak-sira">
+                        {{ durak.durak_sirasi }}
+                    </div>
+
+                    <div class="hat-durak-bilgi">
+                        <h3>{{ durak.durak_adi }}</h3>
+
+                        {% if durak.latitude and durak.longitude %}
+                        <p>{{ durak.latitude }} / {{ durak.longitude }}</p>
+                        {% else %}
+                        <p>Konum bilgisi bulunamadı.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <p>Bu hatta ait durak bilgisi bulunamadı.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div id="guzergah" class="hat-tab-panel">
+            <h2>Hat Güzergahı</h2>
+
+            <div class="guzergah-box">
+                <h3>{{ hat.hat_kodu }} Güzergah Bilgisi</h3>
+                <p>{{ hat.hat_adi }}</p>
+
+                {% if duraklar %}
+                <div class="guzergah-ozet">
+                    <strong>Başlangıç Durağı:</strong> {{ duraklar[0].durak_adi }} <br>
+                    <strong>Bitiş Durağı:</strong> {{ duraklar[-1].durak_adi }}
+                </div>
+                {% endif %}
+
+                <p class="hat-aciklama">
+                    Harita entegrasyonu sonraki geliştirme aşamalarında eklenebilir.
+                </p>
+            </div>
+        </div>
+
+        <div id="hakkinda" class="hat-tab-panel">
+            <h2>Hat Hakkında</h2>
+
+            <div class="hakkinda-box">
+                <p>
+                    {{ hat.hat_kodu }} numaralı {{ hat.hat_adi }} hattı, MOTAŞ ulaşım sistemi içerisinde yer alan hatlardan biridir.
+                </p>
+
+                <p>
+                    Bu hatta ait sefer saatleri, durak bilgileri ve güzergah verileri PostgreSQL veritabanından dinamik olarak çekilmektedir.
+                </p>
+
+                <p>
+                    Sistemde kullanılan hat, durak ve sefer verileri MOTAŞ kaynaklarından web scraping yöntemiyle alınarak veritabanına aktarılmıştır.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    function openHatTab(event, tabId) {
+        const panels = document.querySelectorAll(".hat-tab-panel");
+        const buttons = document.querySelectorAll(".hat-tab-btn");
+
+        panels.forEach(panel => {
+            panel.classList.remove("active");
+        });
+
+        buttons.forEach(button => {
+            button.classList.remove("active");
+        });
+
+        document.getElementById(tabId).classList.add("active");
+        event.currentTarget.classList.add("active");
+    }
+</script>
+
+{% endblock %}

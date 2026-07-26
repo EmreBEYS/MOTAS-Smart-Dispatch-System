@@ -1,0 +1,32 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Yeni Durak Ekle{% endblock %} {% block page_title %}Yeni Durak Ekle{% endblock %} {% block content %}
+
+<div class="page-card">
+    <h2>Durak Ekle</h2>
+    <p>Sisteme yeni durak kaydı eklemek için aşağıdaki formu doldur.</p>
+
+    <form action="{{ url_for('admin_durak_ekle') }}" method="POST">
+        <div class="form-grid">
+            <div class="form-group full">
+                <label for="durak_adi">Durak Adı</label>
+                <input type="text" id="durak_adi" name="durak_adi" class="form-input" placeholder="Örn: İnönü Üniversitesi Kapı 2" required>
+            </div>
+
+            <div class="form-group">
+                <label for="latitude">Enlem (Latitude)</label>
+                <input type="text" id="latitude" name="latitude" class="form-input" placeholder="Örn: 38.3551" required>
+            </div>
+
+            <div class="form-group">
+                <label for="longitude">Boylam (Longitude)</label>
+                <input type="text" id="longitude" name="longitude" class="form-input" placeholder="Örn: 38.3332" required>
+            </div>
+        </div>
+
+        <div class="toolbar" style="margin-top: 20px;">
+            <button type="submit" class="btn btn-primary">Durak Kaydet</button>
+            <a href="{{ url_for('admin_duraklar') }}" class="btn btn-light">Listeye Dön</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

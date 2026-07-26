@@ -1,0 +1,142 @@
+{% extends 'base.html' %} {% block title %}Bize Ulaşın{% endblock %} {% block content %}
+
+<section class="contact-page-section">
+    <div class="contact-page-container">
+
+        <div class="contact-hero">
+            <div>
+                <span class="contact-badge">MOTAŞ İletişim Merkezi</span>
+                <h1>Bize Ulaşın</h1>
+                <p>
+                    Şikayet, talep, öneri ve kayıp eşya bildirimlerinizi bu form üzerinden bize iletebilirsiniz. Başvurularınız sistem üzerinden kayıt altına alınır ve ilgili birimler tarafından değerlendirilir.
+                </p>
+            </div>
+
+            <div class="contact-hero-card">
+                <h3>Başvuru Türleri</h3>
+                <ul>
+                    <li>Şikayet bildirimi</li>
+                    <li>Talep ve öneriler</li>
+                    <li>Kayıp eşya başvurusu</li>
+                    <li>Hat ve sefer geri bildirimi</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="contact-layout">
+
+            <div class="contact-info-panel">
+                <h2>İletişim Bilgileri</h2>
+
+                <div class="contact-info-item">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <h4>Adres</h4>
+                        <p>MHoca Ahmet Yesevi Mh. Şehir Mezarlığı Cd. No:4/3 Motaş Garajı Yeşilyurt / MALATYA</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-item">
+                    <div class="contact-icon">☎</div>
+                    <div>
+                        <h4>Çağrı Merkezi</h4>
+                        <p>422 502 2 502</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-item">
+                    <div class="contact-icon">✉</div>
+                    <div>
+                        <h4>E-posta</h4>
+                        <p>info@motas.com.tr</p>
+                    </div>
+                </div>
+
+                <div class="contact-note">
+                    <strong>Not:</strong> Kayıp eşya başvurularında hat kodu, tarih, saat ve eşyanın açıklamasını mesaj alanına yazmanız önerilir.
+                </div>
+            </div>
+
+            <div class="contact-form-card">
+                <h2>Başvuru Formu</h2>
+                <p class="form-desc">
+                    Aşağıdaki formu doldurarak başvurunuzu sistemimize iletebilirsiniz.
+                </p>
+
+                <form method="POST" action="{{ url_for('bize_ulasin') }}" class="contact-form">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Ad Soyad <span>*</span></label>
+                            <input type="text" name="ad_soyad" placeholder="Adınızı ve soyadınızı yazın" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Telefon</label>
+                            <input type="text" name="telefon" placeholder="05xx xxx xx xx">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>E-posta</label>
+                            <input type="email" name="email" placeholder="ornek@mail.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Başvuru Türü <span>*</span></label>
+                            <select name="basvuru_turu" required>
+                                <option value="">Başvuru türü seçiniz</option>
+                                <option value="Şikayet" {% if secili_tur == "Şikayet" %}selected{% endif %}>Şikayet</option>
+                                <option value="Talep" {% if secili_tur == "Talep" %}selected{% endif %}>Talep</option>
+                                <option value="Öneri" {% if secili_tur == "Öneri" %}selected{% endif %}>Öneri</option>
+                                <option value="Kayıp Eşya" {% if secili_tur == "Kayıp Eşya" %}selected{% endif %}>Kayıp Eşya</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Konu <span>*</span></label>
+                        <input type="text" name="konu" placeholder="Başvurunuzun konusunu yazın" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Mesaj <span>*</span></label>
+                        <textarea name="mesaj" rows="7" placeholder="Başvurunuzu detaylı şekilde açıklayın..." required></textarea>
+                    </div>
+
+                    <div class="lost-item-helper" id="lostItemHelper">
+                        <h4>Kayıp Eşya Bildirimi İçin Önerilen Bilgiler</h4>
+                        <p>
+                            Mesaj alanına mümkünse hat kodu, biniş/iniş durağı, tarih, saat ve kaybolan eşyanın rengini/modelini yazınız.
+                        </p>
+                    </div>
+
+                    <button type="submit" class="contact-submit-btn">
+                        Başvuruyu Gönder
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+    const basvuruSelect = document.querySelector("select[name='basvuru_turu']");
+    const lostItemHelper = document.getElementById("lostItemHelper");
+
+    function toggleLostItemHelper() {
+        if (basvuruSelect.value === "Kayıp Eşya") {
+            lostItemHelper.style.display = "block";
+        } else {
+            lostItemHelper.style.display = "none";
+        }
+    }
+
+    basvuruSelect.addEventListener("change", toggleLostItemHelper);
+    toggleLostItemHelper();
+</script>
+
+{% endblock %}

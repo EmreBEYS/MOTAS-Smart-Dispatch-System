@@ -1,0 +1,1 @@
+console.log("MOTAŞ arayüz sistemi hazır.");

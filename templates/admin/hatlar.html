@@ -1,0 +1,39 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Hat Yönetimi{% endblock %} {% block page_title %}Hat Yönetimi{% endblock %} {% block content %}
+<div class="page-content">
+    <div class="page-header">
+        <h1>Hat Yönetimi</h1>
+        <a href="{{ url_for('admin_hat_ekle') }}" class="btn btn-primary">+ Yeni Hat Ekle</a>
+    </div>
+
+    <div class="table-card">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Hat Kodu</th>
+                    <th>Hat Adı</th>
+                    <th>Durum</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hat in hatlar %}
+                <tr>
+                    <td>{{ hat.hat_id }}</td>
+                    <td>{{ hat.hat_kodu }}</td>
+                    <td>{{ hat.hat_adi }}</td>
+                    <td>
+                        {% if hat.aktif %} Aktif {% else %} Pasif {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('admin_hat_detay', hat_id=hat.hat_id) }}">Detay</a>
+                        <a href="{{ url_for('admin_hat_duzenle', hat_id=hat.hat_id) }}">Düzenle</a>
+                        <a href="{{ url_for('admin_hat_sil', hat_id=hat.hat_id) }}" onclick="return confirm('Bu hattı silmek istediğine emin misin?')">Sil</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

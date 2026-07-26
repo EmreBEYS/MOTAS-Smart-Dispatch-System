@@ -1,0 +1,192 @@
+{% extends 'base.html' %} {% block title %}Anasayfa{% endblock %} {% block content %}
+
+<section class="nasil-giderim-video-section">
+
+    <video class="nasil-bg-video" autoplay muted loop playsinline>
+        <source src="{{ url_for('static', filename='image/duyurular/tanitim.mp4') }}" type="video/mp4">
+    </video>
+
+    <div class="nasil-video-overlay"></div>
+
+    <div class="container nasil-content">
+
+        <div class="section-title light-title">
+            <h2>Nasıl Giderim?</h2>
+            <p>Kalkış ve varış noktanızı yazın, yapay zeka destekli ulaşım önerisi alın.</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('home') }}" class="nasil-giderim-form">
+            <input type="hidden" name="form_type" value="nasil_giderim">
+
+            <div class="form-group">
+                <label for="nereden">Nereden?</label>
+                <input type="text" id="nereden" name="nereden" value="{{ nereden or '' }}" placeholder="Örn: İnönü Üniversitesi" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nereye">Nereye?</label>
+                <input type="text" id="nereye" name="nereye" value="{{ nereye or '' }}" placeholder="Örn: Çilesiz Mahallesi" required>
+            </div>
+
+            <button type="submit">Yol Tarifi Al</button>
+        </form>
+
+        {% if ai_cevap %}
+        <div class="ai-cevap-kutusu">
+            <div class="ai-cevap-header">
+                <div class="ai-icon">
+                    <i class="fa-solid fa-route"></i>
+                </div>
+
+                <div>
+                    <h3>Önerilen Yol Tarifi</h3>
+                    <span>Yapay zeka destekli ulaşım önerisi</span>
+                </div>
+            </div>
+
+            <div class="ai-cevap-body">
+                {{ ai_cevap | replace('**', '') | replace('* ', '• ') | replace('\n', '<br>') | safe }}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="hat-arama-box">
+            <div class="hat-arama-left">
+                <span>Hat Seçiniz</span>
+            </div>
+
+            <form method="GET" action="{{ url_for('public_hatlar') }}" class="hat-arama-form">
+                <select name="hat_id" required>
+                    <option value="">Bilgilerine ulaşmak istediğiniz hattı seçiniz</option>
+
+                    {% for hat in hatlar %}
+                    <option value="{{ hat.hat_id }}">
+                        {{ hat.hat_kodu }} - {{ hat.hat_adi }}
+                    </option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    Ara
+                </button>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="home-features-section">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Ulaşım İşlemleri</h2>
+            <p>Malatya şehir içi ulaşım işlemlerinizi hızlıca gerçekleştirin.</p>
+        </div>
+
+        <div class="home-features-grid">
+
+            <div class="feature-card video-feature-card">
+                <video class="card-bg-video" autoplay muted loop playsinline>
+                    <source src="{{ url_for('static', filename='image/duyurular/tanitim.mp4') }}" type="video/mp4">
+                </video>
+
+                <div class="card-overlay"></div>
+
+                <div class="card-content">
+                    <div class="card-icon">
+                        <i class="fa-solid fa-bus"></i>
+                    </div>
+
+                    <h3>Otobüsüm Nerede?</h3>
+                    <p>Hat ve durak bilgilerine göre otobüsünüzün güncel durumunu takip edin.</p>
+
+                    <a href="{{ url_for('public_hatlar') }}" class="card-btn">Hemen İncele</a>
+                </div>
+            </div>
+
+            <div class="feature-card normal-feature-card">
+                <div class="normal-card-icon">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+
+                <h3>Hat Bilgileri</h3>
+                <p>Şehir içi otobüs hatlarını, güzergahları ve bağlantılı durakları görüntüleyin.</p>
+
+                <a href="{{ url_for('public_hatlar') }}" class="normal-card-link">Hatları Gör</a>
+            </div>
+
+            <div class="feature-card normal-feature-card">
+                <div class="normal-card-icon">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+
+                <h3>Durak Bilgileri</h3>
+                <p>Size en yakın durakları ve duraklara bağlı hatları kolayca inceleyin.</p>
+
+                <a href="{{ url_for('public_duraklar') }}" class="normal-card-link">Durakları Gör</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<section class="duyurular-section">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Güncel Duyurular</h2>
+            <p>Malatya ulaşım hizmetleriyle ilgili son bilgilendirmeler.</p>
+        </div>
+
+        <div class="duyurular-grid">
+
+            {% for duyuru in duyurular %}
+            <a href="{{ url_for('public_duyuru_detay', duyuru_id=duyuru.duyuru_id) }}" class="duyuru-card duyuru-card-link">
+
+                {% if duyuru.gorsel_yolu %}
+                <img
+                    src="{{ url_for('static', filename=duyuru.gorsel_yolu) }}"
+                    alt="{{ duyuru.baslik }}"
+                    class="duyuru-img"
+                >
+                {% elif duyuru.video_yolu %}
+                <video class="duyuru-video" muted>
+                    <source src="{{ url_for('static', filename=duyuru.video_yolu) }}" type="video/mp4">
+                </video>
+                {% else %}
+                <div class="duyuru-placeholder">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                {% endif %}
+
+                <div class="duyuru-content">
+                    <h3>{{ duyuru.baslik }}</h3>
+
+                    <p>
+                        {{ duyuru.aciklama[:120] }}
+                        {% if duyuru.aciklama|length > 120 %}...{% endif %}
+                    </p>
+
+                    {% if duyuru.created_at %}
+                    <small>
+                        <i class="fa-regular fa-calendar"></i>
+                        {{ duyuru.created_at }}
+                    </small>
+                    {% endif %}
+                </div>
+
+            </a> {% else %}
+            <div class="empty-duyuru">
+                Henüz yayınlanmış duyuru bulunmamaktadır.
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

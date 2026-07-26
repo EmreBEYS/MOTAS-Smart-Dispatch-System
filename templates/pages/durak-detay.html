@@ -1,0 +1,314 @@
+{% extends 'base.html' %} {% block title %}Durak Detay{% endblock %} {% block content %}
+
+<style>
+    .durak-detail-section {
+        padding: 50px 0;
+        background: #f5f7fb;
+        min-height: 80vh;
+    }
+    
+    .durak-container {
+        width: min(1180px, 92%);
+        margin: 0 auto;
+    }
+    
+    .durak-hero {
+        background: #ffffff;
+        border-radius: 22px;
+        padding: 28px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+    
+    .durak-hero h1 {
+        margin: 0;
+        font-size: 30px;
+        color: #111827;
+    }
+    
+    .durak-hero p {
+        margin: 8px 0 0;
+        color: #6b7280;
+    }
+    
+    .back-btn {
+        display: inline-block;
+        text-decoration: none;
+        background: #111827;
+        color: #ffffff;
+        padding: 11px 18px;
+        border-radius: 12px;
+        font-weight: 600;
+    }
+    
+    .detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+        margin-bottom: 24px;
+    }
+    
+    .detail-card {
+        background: #ffffff;
+        border-radius: 22px;
+        padding: 24px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    }
+    
+    .detail-card h2 {
+        margin-top: 0;
+        color: #111827;
+        font-size: 22px;
+    }
+    
+    .info-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 18px;
+    }
+    
+    .info-item {
+        background: #f9fafb;
+        border-radius: 14px;
+        padding: 14px;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+    }
+    
+    .info-item strong {
+        color: #111827;
+    }
+    
+    .info-item span {
+        color: #6b7280;
+    }
+    
+    .hat-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 18px;
+        margin-top: 20px;
+    }
+    
+    .hat-card {
+        border: 1px solid #e5e7eb;
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 18px;
+        transition: 0.2s ease;
+    }
+    
+    .hat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+    }
+    
+    .hat-code {
+        display: inline-block;
+        background: #2563eb;
+        color: #ffffff;
+        padding: 8px 13px;
+        border-radius: 12px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+    
+    .hat-card h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: #111827;
+    }
+    
+    .hat-meta {
+        display: grid;
+        gap: 8px;
+        margin: 14px 0;
+    }
+    
+    .hat-meta div {
+        background: #f9fafb;
+        border-radius: 12px;
+        padding: 10px 12px;
+        color: #374151;
+        font-size: 14px;
+    }
+    
+    .hat-detail-btn {
+        display: inline-block;
+        text-decoration: none;
+        background: #111827;
+        color: #ffffff;
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-weight: 600;
+        margin-top: 8px;
+    }
+    
+    .empty-box {
+        background: #f9fafb;
+        border-radius: 16px;
+        padding: 24px;
+        color: #6b7280;
+        text-align: center;
+    }
+    
+    .map-frame {
+        width: 100%;
+        height: 340px;
+        border: 0;
+        border-radius: 18px;
+        margin-top: 16px;
+    }
+    
+    @media (max-width: 850px) {
+        .durak-hero {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .detail-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<section class="durak-detail-section">
+    <div class="durak-container">
+
+        <div class="durak-hero">
+            <div>
+                <h1>{{ durak.durak_adi }}</h1>
+                <p>
+                    Durak Kodu:
+                    <strong>
+                        {% if durak.durak_kodu %}
+                            {{ durak.durak_kodu }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </strong>
+                </p>
+            </div>
+
+            <a href="{{ url_for('public_duraklar') }}" class="back-btn">
+                ← Duraklara Dön
+            </a>
+        </div>
+
+        <div class="detail-grid">
+
+            <div class="detail-card">
+                <h2>Durak Bilgileri</h2>
+
+                <div class="info-list">
+                    <div class="info-item">
+                        <span>Durak ID</span>
+                        <strong>{{ durak.durak_id }}</strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span>Durak Kodu</span>
+                        <strong>
+                            {% if durak.durak_kodu %}
+                                {{ durak.durak_kodu }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span>Enlem</span>
+                        <strong>
+                            {% if durak.latitude %}
+                                {{ durak.latitude }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span>Boylam</span>
+                        <strong>
+                            {% if durak.longitude %}
+                                {{ durak.longitude }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <h2>Durak Konumu</h2>
+
+                {% if durak.latitude and durak.longitude %}
+                <iframe class="map-frame" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q={{ durak.latitude }},{{ durak.longitude }}&z=16&output=embed">
+                    </iframe>
+
+                <div style="margin-top: 14px;">
+                    <a href="https://www.google.com/maps?q={{ durak.latitude }},{{ durak.longitude }}" target="_blank" class="hat-detail-btn">
+                            Google Maps'te Aç
+                        </a>
+                </div>
+                {% else %}
+                <div class="empty-box">
+                    Bu durak için konum bilgisi girilmemiş.
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <div class="detail-card">
+            <h2>Bu Duraktan Geçen Hatlar</h2>
+
+            {% if gecen_hatlar %}
+            <div class="hat-grid">
+                {% for hat in gecen_hatlar %}
+                <div class="hat-card">
+                    <span class="hat-code">{{ hat.hat_kodu }}</span>
+
+                    <h3>{{ hat.hat_adi }}</h3>
+
+                    <div class="hat-meta">
+                        <div>
+                            <strong>Durak Sırası:</strong> {{ hat.durak_sirasi }}
+                        </div>
+
+                        <div>
+                            <strong>Toplam Durak:</strong> {{ hat.toplam_durak }}
+                        </div>
+
+                        <div>
+                            <strong>Toplam Sefer:</strong> {{ hat.toplam_sefer }}
+                        </div>
+
+                        <div>
+                            <strong>Gidiş / Dönüş:</strong> {{ hat.gidis_sefer_sayisi }} / {{ hat.donus_sefer_sayisi }}
+                        </div>
+                    </div>
+
+                    <a href="{{ url_for('hat_detay', hat_id=hat.hat_id) }}" class="hat-detail-btn">
+                                Hat Detayını Gör
+                            </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-box">
+                Bu duraktan geçen aktif hat bulunamadı.
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Duyurular{% endblock %} {% block content %}
+
+<div class="admin-page-header">
+    <div>
+        <h1>Duyurular</h1>
+        <p>Sistemde yayınlanan duyuruları görüntüleyin ve yönetin.</p>
+    </div>
+
+    <a href="{{ url_for('admin_duyuru_ekle') }}" class="admin-btn primary">
+        <i class="fa-solid fa-plus"></i> Yeni Duyuru Ekle
+    </a>
+</div>
+
+<div class="admin-card">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Medya</th>
+                <th>Başlık</th>
+                <th>Açıklama</th>
+                <th>Durum</th>
+                <th>Tarih</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for duyuru in duyurular %}
+            <tr>
+                <td>{{ duyuru.duyuru_id }}</td>
+
+                <td>
+                    {% if duyuru.gorsel_yolu %}
+                    <img src="{{ url_for('static', filename=duyuru.gorsel_yolu) }}" class="admin-duyuru-media" alt="{{ duyuru.baslik }}"> {% elif duyuru.video_yolu %}
+                    <video class="admin-duyuru-media" muted>
+                        <source src="{{ url_for('static', filename=duyuru.video_yolu) }}" type="video/mp4">
+                    </video> {% else %}
+                    <span class="media-empty">Yok</span> {% endif %}
+                </td>
+
+                <td>
+                    <strong>{{ duyuru.baslik }}</strong>
+                </td>
+
+                <td>
+                    <span class="table-desc">
+                        {{ duyuru.aciklama[:90] }}
+                        {% if duyuru.aciklama|length > 90 %}...{% endif %}
+                    </span>
+                </td>
+
+                <td>
+                    {% if duyuru.yayin_durumu %}
+                    <span class="status-badge active">Yayında</span> {% else %}
+                    <span class="status-badge passive">Pasif</span> {% endif %}
+                </td>
+
+                <td>{{ duyuru.created_at }}</td>
+
+                <td>
+                    <a href="{{ url_for('admin_duyuru_sil', duyuru_id=duyuru.duyuru_id) }}" class="admin-btn danger small" onclick="return confirm('Bu duyuruyu silmek istediğine emin misin?')">
+                        Sil
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7" class="empty-table">
+                    Henüz duyuru eklenmemiş.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %} {% block title %}Hatlar{% endblock %} {% block content %}
+<section class="duraklar-section">
+    <div class="duraklar-container">
+        <h1 class="duraklar-title">Hat ara</h1>
+
+        <div class="durak-arama-box">
+            <input type="text" id="hatSearch" class="durak-arama-input" placeholder="Hat kodu veya hat adı yazın...">
+        </div>
+
+        <p class="durak-bilgi">
+            Tüm hatlar listeleniyor (<span id="hatCount">{{ hatlar|length }}</span> adet).
+        </p>
+
+        <div class="durak-listesi" id="hatList">
+            {% for hat in hatlar %}
+            <div class="durak-item" data-search="{{ (hat.hat_kodu ~ ' ' ~ hat.hat_adi)|lower }}">
+
+                <div class="durak-kod">
+                    {{ hat.hat_kodu }}
+                </div>
+
+                <a href="{{ url_for('hat_detay', hat_id=hat.hat_id) }}" class="hat-ad-link">
+                    {{ hat.hat_adi.upper() }}
+                </a>
+
+                <a href="{{ url_for('hat_detay', hat_id=hat.hat_id) }}" class="hat-detay-btn" title="Hat Detayını Gör">
+                    ⌘
+                </a>
+            </div>
+            {% else %}
+            <div class="bos-liste">
+                Kayıtlı hat bulunamadı.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+    const hatSearchInput = document.getElementById("hatSearch");
+    const hatItems = document.querySelectorAll(".durak-item");
+    const hatCount = document.getElementById("hatCount");
+
+    hatSearchInput.addEventListener("input", function() {
+        const value = this.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        hatItems.forEach(item => {
+            const searchText = item.getAttribute("data-search");
+
+            if (searchText.includes(value)) {
+                item.style.display = "grid";
+                visibleCount++;
+            } else {
+                item.style.display = "none";
+            }
+        });
+
+        hatCount.textContent = visibleCount;
+    });
+</script>
+{% endblock %}

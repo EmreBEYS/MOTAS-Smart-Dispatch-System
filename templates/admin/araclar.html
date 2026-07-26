@@ -1,0 +1,65 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Otobüs Yönetimi{% endblock %} {% block page_title %}Otobüs Yönetimi{% endblock %} {% block content %}
+
+<div class="page-card">
+    <h2>Otobüs Listesi</h2>
+    <p>Sistemde kayıtlı araçları buradan görüntüleyebilir, düzenleyebilir, silebilir ve Excel'e aktarabilirsin.</p>
+
+    <div class="toolbar">
+        <a href="{{ url_for('admin_arac_ekle') }}" class="btn btn-primary">+ Yeni Araç Ekle</a>
+        <a href="{{ url_for('admin_araclar_excel') }}" class="btn btn-light">Excel Dışa Aktar</a>
+    </div>
+
+    <div class="toolbar">
+        <input type="text" class="search-input" placeholder="Plaka, marka veya model ile ara...">
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Plaka</th>
+                    <th>Marka</th>
+                    <th>Model</th>
+                    <th>Kapasite</th>
+                    <th>Kilometre</th>
+                    <th>Yoğunluk</th>
+                    <th>Durum</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if araclar %} {% for arac in araclar %}
+                <tr>
+                    <td>{{ arac.otobus_id }}</td>
+                    <td>{{ arac.plaka }}</td>
+                    <td>{{ arac.marka }}</td>
+                    <td>{{ arac.model }}</td>
+                    <td>{{ arac.kapasite }}</td>
+                    <td>{{ arac.kilometre }} km</td>
+                    <td>{{ arac.yogunluk }}</td>
+                    <td>
+                        {% if arac.durum == 'Seferde' %}
+                        <span class="status status-active">{{ arac.durum }}</span> {% elif arac.durum == 'Bakımda' %}
+                        <span class="status status-passive">{{ arac.durum }}</span> {% else %}
+                        <span class="status">{{ arac.durum }}</span> {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('admin_arac_detay', otobus_id=arac.otobus_id) }}" style="text-decoration:none; color:#111; font-weight:600;">Detay</a> |
+                        <a href="{{ url_for('admin_arac_duzenle', otobus_id=arac.otobus_id) }}" style="text-decoration:none; color:#111; font-weight:600;">Düzenle</a> |
+                        <a href="{{ url_for('admin_arac_sil', otobus_id=arac.otobus_id) }}" onclick="return confirm('Bu aracı silmek istediğine emin misin?')" style="text-decoration:none; color:#c0392b; font-weight:600;">Sil</a>
+                    </td>
+                </tr>
+                {% endfor %} {% else %}
+                <tr>
+                    <td colspan="9" style="text-align:center; padding:24px;">
+                        Henüz kayıtlı araç bulunmuyor.
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

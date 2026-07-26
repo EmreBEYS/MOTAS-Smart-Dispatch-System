@@ -1,0 +1,60 @@
+{% extends "base.html" %} {% block title %}Kayıp Eşya Başvurusu{% endblock %} {% block content %}
+
+<section class="page-section">
+    <div class="page-card">
+        <h1>Kayıp Eşya Başvurusu</h1>
+
+        <p>
+            Otobüs, trambüs veya duraklarda unutulan eşyalar için aşağıdaki formu doldurarak başvuru oluşturabilirsiniz.
+        </p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+            {{ message }}
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+
+        <form class="lost-form" method="POST">
+            <div class="form-group">
+                <label>Ad Soyad</label>
+                <input type="text" name="ad_soyad" required>
+            </div>
+
+            <div class="form-group">
+                <label>Telefon</label>
+                <input type="text" name="telefon" required>
+            </div>
+
+            <div class="form-group">
+                <label>E-posta</label>
+                <input type="email" name="email">
+            </div>
+
+            <div class="form-group">
+                <label>Kayıp Eşya Türü</label>
+                <input type="text" name="esya_turu" required>
+            </div>
+
+            <div class="form-group">
+                <label>Hat / Araç Bilgisi</label>
+                <input type="text" name="hat_bilgisi">
+            </div>
+
+            <div class="form-group">
+                <label>Kayıp Tarihi</label>
+                <input type="date" name="kayip_tarihi">
+            </div>
+
+            <div class="form-group">
+                <label>Açıklama</label>
+                <textarea name="aciklama" rows="5" required></textarea>
+            </div>
+
+            <button type="submit" class="lost-submit-btn">
+                Başvuruyu Gönder
+            </button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Durak Detay{% endblock %} {% block page_title %}Durak Detay{% endblock %} {% block content %}
+
+<div class="page-card">
+    <div class="toolbar" style="justify-content: space-between; align-items: center;">
+        <div>
+            <h2>{{ durak.durak_adi }}</h2>
+            <p>
+                Durak ID: {{ durak.durak_id }} {% if durak.durak_kodu %} | Durak Kodu: {{ durak.durak_kodu }} {% endif %}
+            </p>
+        </div>
+
+        <a href="{{ url_for('admin_duraklar') }}" class="btn btn-light">
+            ← Durak Listesine Dön
+        </a>
+    </div>
+</div>
+
+<div style="height: 20px;"></div>
+
+<div class="dashboard-bottom">
+
+    <!-- DURAK BİLGİLERİ -->
+    <div class="panel-box">
+        <h2>Durak Bilgileri</h2>
+
+        <div class="yolcu-list">
+            <div class="yolcu-item">
+                <strong>{{ durak.durak_id }}</strong>
+                <span>Durak ID</span>
+            </div>
+
+            <div class="yolcu-item">
+                <strong>
+                    {% if durak.durak_kodu %}
+                        {{ durak.durak_kodu }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </strong>
+                <span>Durak Kodu</span>
+            </div>
+
+            <div class="yolcu-item">
+                <strong>{{ durak.latitude }}</strong>
+                <span>Enlem</span>
+            </div>
+
+            <div class="yolcu-item">
+                <strong>{{ durak.longitude }}</strong>
+                <span>Boylam</span>
+            </div>
+
+            <div class="yolcu-item">
+                <strong>
+                    {% if durak.aktif %}
+                        Aktif
+                    {% else %}
+                        Pasif
+                    {% endif %}
+                </strong>
+                <span>Durum</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- BU DURAKTAN GEÇEN HATLAR -->
+    <div class="panel-box">
+        <h2>Bu Duraktan Geçen Hatlar</h2>
+
+        {% if hatlar %}
+        <div class="yolcu-list">
+            {% for hat in hatlar %}
+            <div class="yolcu-item" style="align-items: flex-start;">
+                <strong>
+                            {{ hat.hat_kodu }}
+                        </strong>
+
+                <span>
+                            {{ hat.hat_adi }}
+
+                            <br>
+
+                            <small>
+                                Durak sırası: {{ hat.durak_sirasi }}
+
+                                {% if hat.aktif %}
+                                    • Aktif
+                                {% else %}
+                                    • Pasif
+                                {% endif %}
+                            </small>
+
+                            <br>
+
+                            <a href="{{ url_for('admin_hat_detay', hat_id=hat.hat_id) }}"
+                               class="btn btn-light"
+                               style="margin-top: 8px;">
+                                Hattı Gör
+                            </a>
+                        </span>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="chart-placeholder">
+            Bu duraktan geçen hat bulunamadı.
+            <br>
+            <small>
+                    Hat-durak bağlantısı için hat_durak tablosuna kayıt eklenmelidir.
+                </small>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+<div style="height: 20px;"></div>
+
+<div class="dashboard-bottom">
+
+    <!-- DURAK KONUMU -->
+    <div class="panel-box">
+        <h2>Durak Konumu</h2>
+
+        {% if durak.latitude and durak.longitude %}
+        <iframe width="100%" height="320" style="border:0; border-radius:18px;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q={{ durak.latitude }},{{ durak.longitude }}&z=16&output=embed">
+            </iframe>
+
+        <div class="toolbar" style="margin-top: 16px;">
+            <a href="https://www.google.com/maps?q={{ durak.latitude }},{{ durak.longitude }}" target="_blank" class="btn btn-dark">
+                    Google Maps'te Aç
+                </a>
+        </div>
+        {% else %}
+        <div class="chart-placeholder">
+            Bu durak için konum bilgisi girilmemiş.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- KAMERA GÖRÜNTÜSÜ -->
+    <div class="panel-box">
+        <h2>Kamera Görüntüsü</h2>
+
+        {% if kamera_var %}
+        <img src="{{ url_for('static', filename=kamera_dosyasi) }}" alt="Durak Kamera Görüntüsü" style="width: 100%; border-radius: 18px; object-fit: cover; max-height: 320px;"> {% else %}
+        <div class="chart-placeholder">
+            Bu durak için henüz kamera görüntüsü eklenmedi.
+            <br>
+            <small>
+                    Hazır bağlantı aktif, görsel gelince klasörden okunacak.
+                </small>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

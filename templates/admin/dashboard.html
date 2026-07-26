@@ -1,0 +1,73 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Dashboard{% endblock %} {% block page_title %}Dashboard{% endblock %} {% block content %}
+
+<section class="dashboard-cards">
+    <div class="stat-card">
+        <div class="stat-card-top">
+            <h3>Aktif H Plaka Araç</h3>
+            <i class="fas fa-bus"></i>
+        </div>
+        <div class="stat-number">240</div>
+        <p class="stat-text">Sistemde aktif H plaka araç sayısı</p>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-top">
+            <h3>Aktif Trambüs</h3>
+            <i class="fas fa-train-tram"></i>
+        </div>
+        <div class="stat-number">30</div>
+        <p class="stat-text">Aktif çalışan trambüs sayısı</p>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-top">
+            <h3>Belediye Araçları</h3>
+            <i class="fas fa-building"></i>
+        </div>
+        <div class="stat-number">350</div>
+        <p class="stat-text">Belediyeye bağlı toplam araç sayısı</p>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-card-top">
+            <h3>Kullanıcı Sayısı</h3>
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-number">100</div>
+        <p class="stat-text">Sisteme kayıtlı kullanıcı sayısı</p>
+    </div>
+</section>
+
+<section class="dashboard-bottom">
+    <div class="panel-box">
+        <h2>Yolcu Durum Diyagramı</h2>
+
+        <div class="yolcu-list">
+            <div class="yolcu-item">
+                <strong>7</strong>
+                <span>Yoğun Hatlar</span>
+            </div>
+
+            <div class="yolcu-item">
+                <strong>11</strong>
+                <span>Orta Yoğunluk</span>
+            </div>
+
+            <div class="yolcu-item">
+                <strong>5</strong>
+                <span>Düşük Yoğunluk</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-box">
+        <h2>Günlük Yolcu Grafiği</h2>
+        <div class="chart-placeholder">
+            Günlük yolcu grafiği burada gösterilecek
+            <br>
+            <small>(Şimdilik örnek alan)</small>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

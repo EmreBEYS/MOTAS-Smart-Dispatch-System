@@ -1,0 +1,457 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Sefer Detay{% endblock %} {% block page_title %}Sefer Detay{% endblock %} {% block content %}
+
+<style>
+    .tab-menu {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .tab-button {
+        border: none;
+        background: transparent;
+        padding: 12px 18px;
+        cursor: pointer;
+        font-weight: 600;
+        color: #2563eb;
+        border-radius: 12px 12px 0 0;
+        transition: all 0.2s ease;
+    }
+    
+    .tab-button:hover {
+        background: #f3f4f6;
+    }
+    
+    .tab-button.active {
+        background: #ffffff;
+        color: #111827;
+        border: 1px solid #e5e7eb;
+        border-bottom: 1px solid #ffffff;
+    }
+    
+    .tab-content {
+        display: none;
+        margin-top: 20px;
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+    
+    .sefer-table-wrapper {
+        overflow-x: auto;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        background: #ffffff;
+    }
+    
+    .sefer-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 720px;
+    }
+    
+    .sefer-table th {
+        background: #f3f4f6;
+        padding: 14px;
+        text-align: center;
+        font-size: 15px;
+        color: #111827;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .sefer-table td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #e5e7eb;
+        vertical-align: middle;
+    }
+    
+    .sefer-time {
+        display: inline-block;
+        background: #22c55e;
+        color: white;
+        font-weight: 700;
+        padding: 7px 12px;
+        border-radius: 8px;
+        min-width: 70px;
+    }
+    
+    .empty-time {
+        color: #9ca3af;
+        font-weight: 500;
+    }
+    
+    .small-delete-form {
+        display: inline-block;
+        margin-left: 8px;
+    }
+    
+    .small-delete-btn {
+        border: none;
+        background: #ef4444;
+        color: white;
+        padding: 6px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    
+    .small-delete-btn:hover {
+        background: #dc2626;
+    }
+    
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 16px;
+        align-items: end;
+        margin-top: 20px;
+    }
+    
+    .info-badge {
+        display: inline-block;
+        background: #f3f4f6;
+        color: #111827;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        margin-top: 8px;
+    }
+    
+    @media (max-width: 1000px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+        .sefer-table {
+            min-width: 600px;
+        }
+    }
+</style>
+
+<div class="page-card">
+    <div class="toolbar" style="justify-content: space-between; align-items: center;">
+        <div>
+            <h2>{{ hat.hat_kodu }} - {{ hat.hat_adi }}</h2>
+            <p>Bu hatta ait sefer saatlerini yönetin.</p>
+
+            {% if hat.aktif %}
+            <span class="info-badge">Aktif Hat</span> {% else %}
+            <span class="info-badge">Pasif Hat</span> {% endif %}
+        </div>
+
+        <a href="{{ url_for('admin_seferler') }}" class="btn btn-light">
+            ← Sefer Yönetimine Dön
+        </a>
+    </div>
+</div>
+
+<div style="height: 20px;"></div>
+
+{% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+<div class="page-card" style="margin-bottom: 15px;">
+    <strong>{{ message }}</strong>
+</div>
+{% endfor %} {% endif %} {% endwith %}
+
+<div class="page-card">
+    <h2>Yeni Sefer Ekle</h2>
+    <p>Bu hatta yeni hareket saati tanımlayabilirsiniz.</p>
+
+    <form method="POST">
+        <div class="form-grid">
+
+            <div>
+                <label>Gün Tipi</label>
+                <select name="gun_tipi" class="form-control" required>
+                    <option value="">Gün tipi seçiniz</option>
+                    <option value="Hafta İçi">Hafta İçi</option>
+                    <option value="Hafta Sonu">Hafta Sonu</option>
+                    <option value="Resmi Tatil">Resmi Tatil</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Yön</label>
+                <select name="yon" class="form-control" required>
+                    <option value="">Yön seçiniz</option>
+                    <option value="Gidiş">Gidiş</option>
+                    <option value="Dönüş">Dönüş</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Saat</label>
+                <input type="time" name="saat" class="form-control" required>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-dark" style="width: 100%;">
+                    Sefer Ekle
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<div style="height: 20px;"></div>
+
+<div class="page-card">
+    <div class="toolbar" style="justify-content: space-between; align-items: center;">
+        <div>
+            <h2>Hareket Saatleri</h2>
+            <p>Seferler Hafta İçi, Hafta Sonu ve Resmi Tatil olarak sekmeli şekilde gösterilir.</p>
+        </div>
+    </div>
+
+    {% if sefer_gruplu %}
+
+    <div class="tab-menu">
+        <button type="button" class="tab-button active" onclick="openSeferTab(event, 'tab-hafta-ici')">
+                Hafta İçi
+            </button>
+
+        <button type="button" class="tab-button" onclick="openSeferTab(event, 'tab-hafta-sonu')">
+                Hafta Sonu
+            </button>
+
+        <button type="button" class="tab-button" onclick="openSeferTab(event, 'tab-resmi-tatil')">
+                Resmi Tatil
+            </button>
+    </div>
+
+    <!-- HAFTA İÇİ -->
+    <div id="tab-hafta-ici" class="tab-content active">
+        {% set yonler = sefer_gruplu["Hafta İçi"] %}
+
+        <div class="sefer-table-wrapper">
+            <table class="sefer-table">
+                <thead>
+                    <tr>
+                        <th colspan="2">Gidiş</th>
+                        <th colspan="2">Dönüş</th>
+                    </tr>
+                    <tr>
+                        <th>Saat</th>
+                        <th>İşlem</th>
+                        <th>Saat</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% set gidisler = yonler["Gidiş"] %} {% set donusler = yonler["Dönüş"] %} {% set max_len = [gidisler|length, donusler|length]|max %} {% if max_len > 0 %} {% for i in range(max_len) %}
+                    <tr>
+                        <td>
+                            {% if i
+                            < gidisler|length %} <span class="sefer-time">{{ gidisler[i].saat_formatli }}</span>
+                                {% else %}
+                                <span class="empty-time">-</span> {% endif %}
+                        </td>
+
+                        <td>
+                            {% if i
+                            < gidisler|length %} <form method="POST" action="{{ url_for('admin_sefer_sil', sefer_id=gidisler[i].sefer_id) }}" class="small-delete-form" onsubmit="return confirm('Bu gidiş seferini silmek istediğinize emin misiniz?');">
+                                <button type="submit" class="small-delete-btn">Sil</button>
+                                </form>
+                                {% else %}
+                                <span class="empty-time">-</span> {% endif %}
+                        </td>
+
+                        <td>
+                            {% if i
+                            < donusler|length %} <span class="sefer-time">{{ donusler[i].saat_formatli }}</span>
+                                {% else %}
+                                <span class="empty-time">-</span> {% endif %}
+                        </td>
+
+                        <td>
+                            {% if i
+                            < donusler|length %} <form method="POST" action="{{ url_for('admin_sefer_sil', sefer_id=donusler[i].sefer_id) }}" class="small-delete-form" onsubmit="return confirm('Bu dönüş seferini silmek istediğinize emin misiniz?');">
+                                <button type="submit" class="small-delete-btn">Sil</button>
+                                </form>
+                                {% else %}
+                                <span class="empty-time">-</span> {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %} {% else %}
+                    <tr>
+                        <td colspan="4">
+                            <div class="chart-placeholder">
+                                Hafta içi için sefer bulunamadı.
+                            </div>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- HAFTA SONU -->
+    <div id="tab-hafta-sonu" class="tab-content">
+        {% set yonler = sefer_gruplu["Hafta Sonu"] %}
+
+        <div class="sefer-table-wrapper">
+            <table class="sefer-table">
+                <thead>
+                    <tr>
+                        <th colspan="2">Gidiş</th>
+                        <th colspan="2">Dönüş</th>
+                    </tr>
+                    <tr>
+                        <th>Saat</th>
+                        <th>İşlem</th>
+                        <th>Saat</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% set gidisler = yonler["Gidiş"] %} {% set donusler = yonler["Dönüş"] %} {% set max_len = [gidisler|length, donusler|length]|max %} {% if max_len > 0 %} {% for i in range(max_len) %}
+                    <tr>
+                        <td>
+                            {% if i
+                            < gidisler|length %} <span class="sefer-time">{{ gidisler[i].saat_formatli }}</span>
+                                {% else %}
+                                <span class="empty-time">-</span> {% endif %}
+                        </td>
+
+                        <td>
+                            {% if i
+                            < gidisler|length %} <form method="POST" action="{{ url_for('admin_sefer_sil', sefer_id=gidisler[i].sefer_id) }}" class="small-delete-form" onsubmit="return confirm('Bu gidiş seferini silmek istediğinize emin misiniz?');">
+                                <button type="submit" class="small-delete-btn">Sil</button>
+                                </form>
+                                {% else %}
+                                <span class="empty-time">-</span> {% endif %}
+                        </td>
+
+                        <td>
+                            {% if i
+                            < donusler|length %} <span class="sefer-time">{{ donusler[i].saat_formatli }}</span>
+                                {% else %}
+                                <span class="empty-time">-</span> {% endif %}
+                        </td>
+
+                        <td>
+                            {% if i
+                            < donusler|length %} <form method="POST" action="{{ url_for('admin_sefer_sil', sefer_id=donusler[i].sefer_id) }}" class="small-delete-form" onsubmit="return confirm('Bu dönüş seferini silmek istediğinize emin misiniz?');">
+                                <button type="submit" class="small-delete-btn">Sil</button>
+                                </form>
+                                {% else %}
+                                <span class="empty-time">-</span> {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %} {% else %}
+                    <tr>
+                        <td colspan="4">
+                            <div class="chart-placeholder">
+                                Hafta sonu için sefer bulunamadı.
+                            </div>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- RESMİ TATİL -->
+    <div id="tab-resmi-tatil" class="tab-content">
+        {% set yonler = sefer_gruplu["Resmi Tatil"] %}
+
+        <div class="sefer-table-wrapper">
+            <table class="sefer-table">
+                <thead>
+                    <tr>
+                        <th colspan="2">Gidiş</th>
+                        <th colspan="2">Dönüş</th>
+                    </tr>
+                    <tr>
+                        <th>Saat</th>
+                        <th>İşlem</th>
+                        <th>Saat</th>
+                        <th>İşlem</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% set gidisler = yonler["Gidiş"] %} {% set donusler = yonler["Dönüş"] %} {% set max_len = [gidisler|length, donusler|length]|max %} {% if max_len > 0 %} {% for i in range(max_len) %}
+                    <tr>
+                        <td>
+                            {% if i
+                            < gidisler|length %} <span class="sefer-time">{{ gidisler[i].saat_formatli }}</span>
+                                {% else %}
+                                <span class="empty-time">-</span> {% endif %}
+                        </td>
+
+                        <td>
+                            {% if i
+                            < gidisler|length %} <form method="POST" action="{{ url_for('admin_sefer_sil', sefer_id=gidisler[i].sefer_id) }}" class="small-delete-form" onsubmit="return confirm('Bu gidiş seferini silmek istediğinize emin misiniz?');">
+                                <button type="submit" class="small-delete-btn">Sil</button>
+                                </form>
+                                {% else %}
+                                <span class="empty-time">-</span> {% endif %}
+                        </td>
+
+                        <td>
+                            {% if i
+                            < donusler|length %} <span class="sefer-time">{{ donusler[i].saat_formatli }}</span>
+                                {% else %}
+                                <span class="empty-time">-</span> {% endif %}
+                        </td>
+
+                        <td>
+                            {% if i
+                            < donusler|length %} <form method="POST" action="{{ url_for('admin_sefer_sil', sefer_id=donusler[i].sefer_id) }}" class="small-delete-form" onsubmit="return confirm('Bu dönüş seferini silmek istediğinize emin misiniz?');">
+                                <button type="submit" class="small-delete-btn">Sil</button>
+                                </form>
+                                {% else %}
+                                <span class="empty-time">-</span> {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %} {% else %}
+                    <tr>
+                        <td colspan="4">
+                            <div class="chart-placeholder">
+                                Resmi tatil için sefer bulunamadı.
+                            </div>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="chart-placeholder" style="margin-top: 20px;">
+        Bu hatta ait sefer bulunamadı.
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function openSeferTab(event, tabId) {
+        const tabContents = document.querySelectorAll(".tab-content");
+        const tabButtons = document.querySelectorAll(".tab-button");
+
+        tabContents.forEach(function(content) {
+            content.classList.remove("active");
+        });
+
+        tabButtons.forEach(function(button) {
+            button.classList.remove("active");
+        });
+
+        document.getElementById(tabId).classList.add("active");
+        event.currentTarget.classList.add("active");
+    }
+</script>
+
+{% endblock %}

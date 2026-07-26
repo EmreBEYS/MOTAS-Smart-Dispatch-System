@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% block title %}Duyuru Detay{% endblock %} {% block content %}
+
+<section class="duyuru-detail-section">
+    <div class="container">
+
+        <div class="duyuru-detail-card">
+
+            {% if duyuru.gorsel_yolu %}
+            <div class="duyuru-detail-media">
+                <img src="{{ url_for('static', filename=duyuru.gorsel_yolu) }}" alt="{{ duyuru.baslik }}">
+            </div>
+            {% endif %} {% if duyuru.video_yolu %}
+            <div class="duyuru-detail-media">
+                <video controls>
+                    <source src="{{ url_for('static', filename=duyuru.video_yolu) }}" type="video/mp4">
+                    Tarayıcınız video etiketini desteklemiyor.
+                </video>
+            </div>
+            {% endif %}
+
+            <div class="duyuru-detail-content">
+                <span class="duyuru-detail-badge">Duyuru</span>
+
+                <h1>{{ duyuru.baslik }}</h1>
+
+                {% if duyuru.created_at %}
+                <div class="duyuru-detail-date">
+                    <i class="fa-regular fa-calendar"></i> {{ duyuru.created_at }}
+                </div>
+                {% endif %}
+
+                <p>
+                    {{ duyuru.aciklama }}
+                </p>
+
+                <a href="{{ url_for('home') }}" class="duyuru-back-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

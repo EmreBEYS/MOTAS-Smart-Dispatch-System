@@ -1,0 +1,140 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Araç Detayı{% endblock %} {% block content %}
+
+<div class="admin-page-header">
+    <div>
+        <h1>Araç Detayı</h1>
+        <p>{{ arac.plaka }} plakalı aracın teknik bilgileri ve kamera görüntü alanı.</p>
+    </div>
+
+    <div class="admin-header-actions">
+        <a href="{{ url_for('admin_araclar') }}" class="admin-btn-secondary">
+            Listeye Dön
+        </a>
+
+        <a href="{{ url_for('admin_arac_duzenle', otobus_id=arac.otobus_id) }}" class="admin-btn-primary">
+            Düzenle
+        </a>
+    </div>
+</div>
+
+<div class="arac-detay-grid">
+
+    <div class="admin-detail-card">
+        <h2>Araç Bilgileri</h2>
+
+        <div class="arac-plaka-box">
+            {{ arac.plaka }}
+        </div>
+
+        <div class="detail-row">
+            <strong>Marka:</strong>
+            <span>{{ arac.marka or "-" }}</span>
+        </div>
+
+        <div class="detail-row">
+            <strong>Model:</strong>
+            <span>{{ arac.model or "-" }}</span>
+        </div>
+
+        <div class="detail-row">
+            <strong>Kapasite:</strong>
+            <span>{{ arac.kapasite or "-" }}</span>
+        </div>
+
+        <div class="detail-row">
+            <strong>Kilometre:</strong>
+            <span>{{ arac.kilometre or "-" }} km</span>
+        </div>
+
+        <div class="detail-row">
+            <strong>Yoğunluk:</strong>
+            <span class="arac-yogunluk-badge">
+                {{ arac.yogunluk or "Belirsiz" }}
+            </span>
+        </div>
+
+        <div class="detail-row">
+            <strong>Durum:</strong>
+            <span class="arac-durum-badge">
+                {{ arac.durum or "-" }}
+            </span>
+        </div>
+    </div>
+
+    <div class="admin-detail-card">
+        <div class="camera-card-header">
+            <div>
+                <h2>Kamera Görüntüsü</h2>
+                <p>Otobüs içi yoğunluk analizi için hazırlanmış görüntü alanı.</p>
+            </div>
+
+            <span class="camera-status-badge">
+                Hazır Alan
+            </span>
+        </div>
+
+        <div class="camera-preview-box">
+            {% if arac.kamera_yolu %}
+            <img src="{{ arac.kamera_yolu }}" alt="Otobüs kamera görüntüsü"> {% else %}
+            <div class="camera-placeholder">
+                <i class="fa-solid fa-video"></i>
+                <p>Kamera/API görüntü alanı</p>
+                <small>
+                        Bu alanda ileride otobüs içi kamera görüntüsü veya görüntü işleme sonucu gösterilecektir.
+                    </small>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="ai-analysis-box">
+            <h3>Görüntü İşleme Analiz Alanı</h3>
+
+            <div class="analysis-grid">
+                <div class="analysis-item">
+                    <span>Yolcu Sayısı</span>
+                    <strong>
+                        {% if arac.yolcu_sayisi is defined and arac.yolcu_sayisi %}
+                            {{ arac.yolcu_sayisi }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div class="analysis-item">
+                    <span>Doluluk Oranı</span>
+                    <strong>
+                        {% if arac.doluluk_orani is defined and arac.doluluk_orani %}
+                            %{{ arac.doluluk_orani }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </strong>
+                </div>
+
+                <div class="analysis-item">
+                    <span>Yoğunluk Durumu</span>
+                    <strong>{{ arac.yogunluk or "-" }}</strong>
+                </div>
+
+                <div class="analysis-item">
+                    <span>Son Analiz</span>
+                    <strong>
+                        {% if arac.son_goruntu_zamani is defined and arac.son_goruntu_zamani %}
+                            {{ arac.son_goruntu_zamani.strftime("%d.%m.%Y %H:%M") }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </strong>
+                </div>
+            </div>
+
+            <p class="analysis-note">
+                Bu bölüm, ileride görüntü işleme modeli otobüs içi kamera görüntülerinden yolcu yoğunluğu hesapladığında otomatik olarak güncellenecek şekilde hazırlanmıştır.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

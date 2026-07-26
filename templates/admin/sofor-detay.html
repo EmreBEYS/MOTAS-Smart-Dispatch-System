@@ -1,0 +1,79 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Şoför Detayı{% endblock %} {% block content %}
+
+<div class="admin-page-header">
+    <div>
+        <h1>Şoför Detayı</h1>
+        <p>{{ sofor.ad }} {{ sofor.soyad }} adlı şoförün detay bilgileri.</p>
+    </div>
+
+    <div class="admin-header-actions">
+        <a href="{{ url_for('admin_soforler') }}" class="admin-btn-secondary">
+            Listeye Dön
+        </a>
+
+        <a href="{{ url_for('admin_sofor_duzenle', sofor_id=sofor.sofor_id) }}" class="admin-btn-primary">
+            Düzenle
+        </a>
+    </div>
+</div>
+
+<div class="admin-detail-grid">
+
+    <div class="admin-detail-card">
+        <h2>Şoför Bilgileri</h2>
+
+        <div class="detail-row">
+            <strong>Ad Soyad:</strong>
+            <span>{{ sofor.ad }} {{ sofor.soyad }}</span>
+        </div>
+
+        <div class="detail-row">
+            <strong>Telefon:</strong>
+            <span>{{ sofor.telefon or "-" }}</span>
+        </div>
+
+        <div class="detail-row">
+            <strong>Ehliyet No:</strong>
+            <span>{{ sofor.ehliyet_no or "-" }}</span>
+        </div>
+
+        <div class="detail-row">
+            <strong>Durum:</strong>
+            <span>{{ sofor.durum or "Aktif" }}</span>
+        </div>
+
+        <div class="detail-row">
+            <strong>Kayıt Tarihi:</strong>
+            <span>
+                {% if sofor.created_at %}
+                    {{ sofor.created_at.strftime("%d.%m.%Y %H:%M") }}
+                {% else %}
+                    -
+                {% endif %}
+            </span>
+        </div>
+    </div>
+
+    <div class="admin-detail-card">
+        <h2>Hat Ataması</h2>
+
+        {% if sofor.hat_kodu %}
+        <div class="driver-line-box">
+            <span>Atanmış Hat</span>
+            <strong>{{ sofor.hat_kodu }}</strong>
+            <p>{{ sofor.hat_adi }}</p>
+        </div>
+        {% else %}
+        <div class="driver-line-empty">
+            <p>Bu şoföre henüz hat ataması yapılmamış.</p>
+        </div>
+        {% endif %}
+
+        <p class="analysis-note">
+            İlerleyen aşamada şoför paneli geliştirildiğinde, şoför bu alandaki hat atamasına göre kendi sefer bilgilerini görüntüleyebilecektir.
+        </p>
+    </div>
+
+</div>
+
+{% endblock %}

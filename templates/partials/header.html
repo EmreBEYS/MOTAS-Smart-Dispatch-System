@@ -1,0 +1,62 @@
+<header class="topbar">
+    <div class="topbar-left">
+        <span>📞 0422 502 2 502</span>
+        <span>📱 0552 502 2 502</span>
+    </div>
+
+    <div class="topbar-right">
+        <a href="{{ url_for('kayip_esya_basvurusu') }}">Kayıp Eşya Başvurusu</a>
+        <a href="#">Ücret Tarifesi</a>
+        <a href="#">Hareket Saatleri</a>
+    </div>
+</header>
+
+<nav class="navbar">
+    <div class="nav-left">
+        <a href="{{ url_for('home') }}" class="logo-link">
+            <img src="{{ url_for('static', filename='image/logo.png') }}" alt="MOTAŞ Logo" class="logo">
+        </a>
+    </div>
+
+    <ul class="nav-menu">
+        <li><a href="{{ url_for('home') }}">Anasayfa</a></li>
+        <li><a href="{{ url_for('public_hatlar') }}">Hatlar</a></li>
+        <li><a href="{{ url_for('public_duraklar') }}">Duraklar</a></li>
+
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle">Online İşlemler ▾</a>
+
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="https://play.google.com/store/apps/details?id=com.asis.malatyaulasim" target="_blank">
+                        Mobil Yükleme
+                    </a>
+                </li>
+
+                <li>
+                    <a href="https://www.akillibiletim.com/" target="_blank">
+                        Webden Yükleme
+                    </a>
+                </li>
+
+                <li>
+                    <a href="https://www.akillibiletim.com/BSV_FRM.aspx" target="_blank">
+                        Kart Başvurusu
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li><a href="{{ url_for('bize_ulasin') }}?tur=Kayıp%20Eşya">Bize Ulaşın</a></li>
+    </ul>
+
+    <div class="nav-right">
+        <input type="text" placeholder="Ara..." class="search-box"> {% if session.get('user') %}
+        <span class="welcome-text">Hoş geldin, {{ session.get('name') }}</span> {% if session.get('role_id') == 1 %}
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-login">Admin Panel</a> {% endif %}
+
+        <a href="{{ url_for('logout') }}" class="btn btn-register">Çıkış Yap</a> {% else %}
+        <a href="{{ url_for('login') }}" class="btn btn-login">Giriş Yap</a>
+        <a href="{{ url_for('register') }}" class="btn btn-register">Kayıt Ol</a> {% endif %}
+    </div>
+</nav>

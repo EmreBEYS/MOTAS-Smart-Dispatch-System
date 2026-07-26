@@ -1,0 +1,10 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Hat Detay{% endblock %} {% block page_title %}Hat Detay{% endblock %} {% block content %}
+<div class="detail-card">
+    <h1>Hat Detay</h1>
+
+    <p><strong>Hat ID:</strong> {{ hat.hat_id }}</p>
+    <p><strong>Hat Kodu:</strong> {{ hat.hat_kodu }}</p>
+    <p><strong>Hat Adı:</strong> {{ hat.hat_adi }}</p>
+    <p><strong>Durum:</strong> {% if hat.aktif %}Aktif{% else %}Pasif{% endif %}</p>
+</div>
+{% endblock %}

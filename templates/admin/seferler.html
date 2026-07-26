@@ -1,0 +1,85 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Sefer Yönetimi{% endblock %} {% block page_title %}Sefer Yönetimi{% endblock %} {% block content %}
+
+<div class="page-card">
+    <div class="toolbar" style="justify-content: space-between; align-items: center;">
+        <div>
+            <h2>Sefer Yönetimi</h2>
+            <p>Hatları seçerek sefer saatlerini düzenleyebilir, yeni sefer ekleyebilir veya mevcut seferleri silebilirsiniz.</p>
+        </div>
+    </div>
+</div>
+
+<div style="height: 20px;"></div>
+
+{% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for category, message in messages %}
+<div class="page-card" style="margin-bottom: 15px;">
+    <strong>{{ message }}</strong>
+</div>
+{% endfor %} {% endif %} {% endwith %}
+
+<div class="page-card">
+    <div class="toolbar" style="justify-content: space-between; align-items: center;">
+        <div>
+            <h2>Hatlar</h2>
+            <p>Aktif hatlar ve bu hatlara ait sefer özetleri</p>
+        </div>
+    </div>
+
+    {% if hatlar %}
+    <div class="dashboard-bottom" style="margin-top: 20px;">
+        {% for hat in hatlar %}
+        <div class="panel-box" style="min-height: 260px;">
+            <div class="toolbar" style="justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <h2>{{ hat.hat_kodu }}</h2>
+                    <p>{{ hat.hat_adi }}</p>
+                </div>
+
+                {% if hat.aktif %}
+                <span class="btn btn-light">Aktif</span> {% else %}
+                <span class="btn btn-dark">Pasif</span> {% endif %}
+            </div>
+
+            <div class="yolcu-list" style="margin-top: 18px;">
+                <div class="yolcu-item">
+                    <strong>{{ hat.toplam_sefer }}</strong>
+                    <span>Toplam Sefer</span>
+                </div>
+
+                <div class="yolcu-item">
+                    <strong>{{ hat.gidis_sayisi }}</strong>
+                    <span>Gidiş Seferi</span>
+                </div>
+
+                <div class="yolcu-item">
+                    <strong>{{ hat.donus_sayisi }}</strong>
+                    <span>Dönüş Seferi</span>
+                </div>
+
+                <div class="yolcu-item">
+                    <strong>{{ hat.hafta_ici_sayisi }}</strong>
+                    <span>Hafta İçi</span>
+                </div>
+
+                <div class="yolcu-item">
+                    <strong>{{ hat.hafta_sonu_sayisi }}</strong>
+                    <span>Hafta Sonu</span>
+                </div>
+            </div>
+
+            <div class="toolbar" style="margin-top: 18px;">
+                <a href="{{ url_for('admin_sefer_hat_detay', hat_id=hat.hat_id) }}" class="btn btn-dark">
+                            Seferleri Yönet
+                        </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="chart-placeholder" style="margin-top: 20px;">
+        Aktif hat bulunamadı.
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

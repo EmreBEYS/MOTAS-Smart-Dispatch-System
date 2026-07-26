@@ -1,0 +1,66 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Yeni Araç Ekle{% endblock %} {% block page_title %}Yeni Araç Ekle{% endblock %} {% block content %}
+
+<div class="page-card">
+    <h2>Otobüs Ekle</h2>
+    <p>Sisteme yeni araç kaydı eklemek için aşağıdaki alanları doldur.</p>
+
+    <form action="{{ url_for('admin_arac_ekle') }}" method="POST">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="plaka">Plaka</label>
+                <input type="text" id="plaka" name="plaka" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="marka">Marka</label>
+                <input type="text" id="marka" name="marka" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="model">Model</label>
+                <input type="text" id="model" name="model" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="kapasite">Kapasite</label>
+                <input type="number" id="kapasite" name="kapasite" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="kilometre">Kilometre</label>
+                <input type="number" id="kilometre" name="kilometre" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="durum">Durum</label>
+                <select id="durum" name="durum" class="select-input" required>
+                    <option value="Garajda">Garajda</option>
+                    <option value="Seferde">Seferde</option>
+                    <option value="Bakımda">Bakımda</option>
+                    <option value="Pasif">Pasif</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="yogunluk">Yoğunluk</label>
+                <select id="yogunluk" name="yogunluk" class="select-input" required>
+                    <option value="Düşük">Düşük</option>
+                    <option value="Orta">Orta</option>
+                    <option value="Yüksek">Yüksek</option>
+                </select>
+            </div>
+
+            <div class="form-group full">
+                <label for="kamera_yolu">Görsel / Kamera Yolu</label>
+                <input type="text" id="kamera_yolu" name="kamera_yolu" class="form-input" placeholder="Örn: image/otobusler/44H0251.jpg">
+            </div>
+        </div>
+
+        <div class="toolbar" style="margin-top: 20px;">
+            <button type="submit" class="btn btn-primary">Aracı Kaydet</button>
+            <a href="{{ url_for('admin_araclar') }}" class="btn btn-light">Listeye Dön</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

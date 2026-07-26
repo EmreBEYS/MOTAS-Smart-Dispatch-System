@@ -1,0 +1,71 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Kullanıcı Yönetimi{% endblock %} {% block content %}
+
+<div class="admin-page-header">
+    <div>
+        <h1>Kullanıcı Yönetimi</h1>
+        <p>Sisteme kayıtlı kullanıcıları, rollerini ve kayıt tarihlerini görüntüleyin.</p>
+    </div>
+</div>
+
+<div class="admin-table-card">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ad Soyad</th>
+                <th>E-posta</th>
+                <th>Rol ID</th>
+                <th>Rol</th>
+                <th>Kayıt Tarihi</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for kullanici in kullanicilar %}
+            <tr>
+                <td>#{{ kullanici.user_id }}</td>
+
+                <td>
+                    <strong>{{ kullanici.name or "-" }} {{ kullanici.surname or "" }}</strong>
+                </td>
+
+                <td>
+                    {{ kullanici.email or "-" }}
+                </td>
+
+                <td>
+                    {{ kullanici.role_id or "-" }}
+                </td>
+
+                <td>
+                    {% if kullanici.role_name %}
+                    <span class="type-badge">
+                            {{ kullanici.role_name }}
+                        </span> {% elif kullanici.role_id == 1 %}
+                    <span class="type-badge type-admin">
+                            admin
+                        </span> {% elif kullanici.role_id == 2 %}
+                    <span class="type-badge">
+                            user
+                        </span> {% else %}
+                    <span class="type-badge">
+                            Kullanıcı
+                        </span> {% endif %}
+                </td>
+
+                <td>
+                    {% if kullanici.created_at %} {{ kullanici.created_at.strftime("%d.%m.%Y %H:%M") }} {% else %} - {% endif %}
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="empty-table">
+                    Kayıtlı kullanıcı bulunamadı.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

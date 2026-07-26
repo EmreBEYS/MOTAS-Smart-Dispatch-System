@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block title %}Duraklar{% endblock %} {% block content %}
+
+<section class="duraklar-section">
+    <div class="duraklar-container">
+        <h1 class="duraklar-title">Durak Ara</h1>
+
+        <div class="durak-arama-box">
+            <input type="text" id="durakSearch" class="durak-arama-input" placeholder="Durak adı yazın...">
+        </div>
+
+        <p class="durak-bilgi">
+            Tüm duraklar listeleniyor (
+            <span id="durakCount">{{ duraklar|length }}</span> adet). Arama yaptığınızda sadece eşleşen duraklar kalır.
+        </p>
+
+        <div class="durak-listesi" id="durakList">
+            {% for durak in duraklar %}
+            <div class="durak-item" data-search="{{ durak.durak_adi|lower }}">
+
+                <div class="durak-kod">
+                    D{{ "%03d"|format(durak.durak_id) }}
+                </div>
+
+                <div class="durak-ad">
+                    {{ durak.durak_adi.upper() }}
+                </div>
+
+                <div class="durak-action">
+                    <a href="{{ url_for('public_durak_detay', durak_id=durak.durak_id) }}" class="detail-btn">
+                        Detay Gör
+                    </a>
+                </div>
+
+            </div>
+            {% else %}
+            <div class="durak-empty">
+                Kayıtlı durak bulunamadı.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+    const durakSearchInput = document.getElementById("durakSearch");
+    const durakItems = document.querySelectorAll(".durak-item");
+    const durakCount = document.getElementById("durakCount");
+
+    durakSearchInput.addEventListener("input", function() {
+        const value = this.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        durakItems.forEach(item => {
+            const searchText = item.getAttribute("data-search");
+
+            if (searchText.includes(value)) {
+                item.style.display = "grid";
+                visibleCount++;
+            } else {
+                item.style.display = "none";
+            }
+        });
+
+        durakCount.textContent = visibleCount;
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Şikayet / Talep Yönetimi{% endblock %} {% block content %}
+
+<div class="admin-page-header">
+    <div>
+        <h1>Şikayet / Talep Yönetimi</h1>
+        <p>Kullanıcı başvurularını, önerileri ve kayıp eşya bildirimlerini görüntüleyin.</p>
+    </div>
+</div>
+
+<div class="admin-filter-card">
+    <form method="GET" action="{{ url_for('admin_sikayet_talepler') }}" class="admin-filter-form">
+
+        <div class="filter-group">
+            <label>Başvuru Türü</label>
+            <select name="tur">
+                <option value="Tümü" {% if secili_tur == "Tümü" %}selected{% endif %}>Tümü</option>
+                <option value="Şikayet" {% if secili_tur == "Şikayet" %}selected{% endif %}>Şikayet</option>
+                <option value="Talep" {% if secili_tur == "Talep" %}selected{% endif %}>Talep</option>
+                <option value="Öneri" {% if secili_tur == "Öneri" %}selected{% endif %}>Öneri</option>
+                <option value="Kayıp Eşya" {% if secili_tur == "Kayıp Eşya" %}selected{% endif %}>Kayıp Eşya</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Durum</label>
+            <select name="durum">
+                <option value="Tümü" {% if secili_durum == "Tümü" %}selected{% endif %}>Tümü</option>
+                <option value="Beklemede" {% if secili_durum == "Beklemede" %}selected{% endif %}>Beklemede</option>
+                <option value="İnceleniyor" {% if secili_durum == "İnceleniyor" %}selected{% endif %}>İnceleniyor</option>
+                <option value="Çözüldü" {% if secili_durum == "Çözüldü" %}selected{% endif %}>Çözüldü</option>
+                <option value="Reddedildi" {% if secili_durum == "Reddedildi" %}selected{% endif %}>Reddedildi</option>
+            </select>
+        </div>
+
+        <button type="submit" class="admin-btn-primary">Filtrele</button>
+
+        <a href="{{ url_for('admin_sikayet_talepler') }}" class="admin-btn-secondary">
+            Temizle
+        </a>
+
+    </form>
+</div>
+
+<div class="admin-table-card">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tür</th>
+                <th>Konu</th>
+                <th>Ad Soyad</th>
+                <th>Telefon</th>
+                <th>Durum</th>
+                <th>Tarih</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for basvuru in basvurular %}
+            <tr>
+                <td>#{{ basvuru.id }}</td>
+
+                <td>
+                    <span class="type-badge type-{{ basvuru.basvuru_turu|lower|replace(' ', '-')|replace('ı','i')|replace('ö','o')|replace('ü','u')|replace('ş','s')|replace('ç','c')|replace('ğ','g') }}">
+                        {{ basvuru.basvuru_turu }}
+                    </span>
+                </td>
+
+                <td>{{ basvuru.konu }}</td>
+                <td>{{ basvuru.ad_soyad }}</td>
+                <td>{{ basvuru.telefon or "-" }}</td>
+
+                <td>
+                    <span class="status-badge status-{{ basvuru.durum|lower|replace(' ', '-')|replace('ı','i')|replace('ö','o')|replace('ü','u')|replace('ş','s')|replace('ç','c')|replace('ğ','g') }}">
+                        {{ basvuru.durum }}
+                    </span>
+                </td>
+
+                <td>
+                    {% if basvuru.created_at %} {{ basvuru.created_at.strftime("%d.%m.%Y %H:%M") }} {% else %} - {% endif %}
+                </td>
+
+                <td>
+                    <a href="{{ url_for('admin_sikayet_talep_detay', basvuru_id=basvuru.id) }}" class="admin-btn-small">
+                        Detay
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8" class="empty-table">
+                    Kayıtlı başvuru bulunamadı.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

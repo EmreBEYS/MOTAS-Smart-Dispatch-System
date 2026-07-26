@@ -1,0 +1,59 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Duyuru Ekle{% endblock %} {% block content %}
+
+<div class="admin-page-header">
+    <div>
+        <h1>Yeni Duyuru Ekle</h1>
+        <p>Kullanıcı ana sayfasında görünecek duyuru oluşturun.</p>
+    </div>
+
+    <a href="{{ url_for('admin_duyurular') }}" class="admin-btn secondary">
+        <i class="fa-solid fa-arrow-left"></i> Geri Dön
+    </a>
+</div>
+
+<div class="admin-card">
+    <form method="POST" enctype="multipart/form-data" class="admin-form">
+
+        <div class="form-group">
+            <label>Duyuru Başlığı</label>
+            <input type="text" name="baslik" placeholder="Örn: Sefer saatlerinde güncelleme" required>
+        </div>
+
+        <div class="form-group">
+            <label>Duyuru Açıklaması</label>
+            <textarea name="aciklama" rows="6" placeholder="Duyuru açıklamasını yazınız..." required></textarea>
+        </div>
+
+        <div class="form-grid-2">
+            <div class="form-group">
+                <label>Duyuru Görseli</label>
+                <input type="file" name="gorsel" accept="image/*">
+                <small>JPG, PNG veya WEBP formatı önerilir.</small>
+            </div>
+
+            <div class="form-group">
+                <label>Duyuru Videosu</label>
+                <input type="file" name="video" accept="video/*">
+                <small>MP4 formatı önerilir.</small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Yayın Durumu</label>
+            <select name="yayin_durumu">
+                <option value="true">Yayında</option>
+                <option value="false">Pasif</option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="admin-btn primary">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Duyuru Kaydet
+            </button>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

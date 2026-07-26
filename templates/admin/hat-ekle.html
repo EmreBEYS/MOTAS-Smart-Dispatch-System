@@ -1,0 +1,27 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Hat Ekle{% endblock %} {% block page_title %}Hat Ekle{% endblock %} {% block content %}
+<div class="form-card">
+    <h1>Yeni Hat Ekle</h1>
+
+    <form method="POST">
+        <div class="form-group">
+            <label>Hat Kodu</label>
+            <input type="text" name="hat_kodu" required>
+        </div>
+
+        <div class="form-group">
+            <label>Hat Adı</label>
+            <input type="text" name="hat_adi" required>
+        </div>
+
+        <div class="form-group">
+            <label>Durum</label>
+            <select name="aktif" required>
+                <option value="true">Aktif</option>
+                <option value="false">Pasif</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
+</div>
+{% endblock %}

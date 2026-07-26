@@ -1,0 +1,71 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Şoför Ekle{% endblock %} {% block content %}
+
+<div class="admin-page-header">
+    <div>
+        <h1>Şoför Ekle</h1>
+        <p>Sisteme yeni şoför ekleyin ve isteğe bağlı olarak hat ataması yapın.</p>
+    </div>
+
+    <a href="{{ url_for('admin_soforler') }}" class="admin-btn-secondary">
+        Listeye Dön
+    </a>
+</div>
+
+<div class="admin-detail-card">
+    <form method="POST" action="{{ url_for('admin_sofor_ekle') }}" class="admin-update-form">
+
+        <div class="form-row">
+            <div class="filter-group">
+                <label>Ad</label>
+                <input type="text" name="ad" required placeholder="Şoför adı">
+            </div>
+
+            <div class="filter-group">
+                <label>Soyad</label>
+                <input type="text" name="soyad" required placeholder="Şoför soyadı">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="filter-group">
+                <label>Telefon</label>
+                <input type="text" name="telefon" placeholder="05xx xxx xx xx">
+            </div>
+
+            <div class="filter-group">
+                <label>Ehliyet No</label>
+                <input type="text" name="ehliyet_no" placeholder="Ehliyet numarası">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="filter-group">
+                <label>Durum</label>
+                <select name="durum">
+                    <option value="Aktif">Aktif</option>
+                    <option value="İzinli">İzinli</option>
+                    <option value="Pasif">Pasif</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Hat Ataması</label>
+                <select name="hat_id">
+                    <option value="">Hat seçilmedi</option>
+                    {% for hat in hatlar %}
+                    <option value="{{ hat[0] }}">
+                        {{ hat[1] }} - {{ hat[2] }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="admin-btn-primary">
+            Şoför Ekle
+        </button>
+
+    </form>
+</div>
+
+{% endblock %}

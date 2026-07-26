@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {% block title %}Kayıt Ol{% endblock %} {% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+        <div class="auth-logo-area">
+            <img src="{{ url_for('static', filename='image/logo.png') }}" alt="MOTAŞ Logo" class="auth-logo">
+            <h1>Malatya Ulaşım AŞ</h1>
+            <p>Yeni hesap oluşturarak sisteme kayıt olun.</p>
+        </div>
+
+        <form class="auth-form" method="POST" action="{{ url_for('register') }}">
+            <div class="form-group">
+                <label for="name">Ad</label>
+                <input type="text" id="name" name="name" placeholder="Adınızı girin" required>
+            </div>
+
+            <div class="form-group">
+                <label for="surname">Soyad</label>
+                <input type="text" id="surname" name="surname" placeholder="Soyadınızı girin" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Email adresinizi girin" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Şifre</label>
+                <input type="password" id="password" name="password" placeholder="Şifrenizi girin" required>
+            </div>
+
+            <button type="submit" class="btn auth-btn">Kayıt Ol</button>
+
+            <div class="auth-links">
+                <a href="{{ url_for('login') }}">Zaten hesabın var mı? Giriş yap</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Durak Yönetimi{% endblock %} {% block page_title %}Durak Yönetimi{% endblock %} {% block content %}
+
+<div class="page-card">
+    <h2>Durak Listesi</h2>
+    <p>Sistemde kayıtlı durakları buradan görüntüleyebilir, düzenleyebilir ve silebilirsin.</p>
+
+    <div class="toolbar">
+        <a href="{{ url_for('admin_durak_ekle') }}" class="btn btn-primary">+ Yeni Durak Ekle</a>
+        <a href="{{ url_for('admin_duraklar_excel') }}" class="btn btn-light">Excel Dışa Aktar</a>
+    </div>
+
+    <div class="toolbar">
+        <input type="text" class="search-input" placeholder="Durak adı, durak kodu veya mahalle ile ara...">
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Durak ID</th>
+                    <th>Durak Kodu</th>
+                    <th>Durak Adı</th>
+                    <th>Enlem</th>
+                    <th>Boylam</th>
+                    <th>Durum</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if duraklar %} {% for durak in duraklar %}
+                <tr>
+                    <td>{{ durak.durak_id }}</td>
+                    <td>{{ durak.durak_kodu }}</td>
+                    <td>
+                        <a href="{{ url_for('admin_durak_detay', durak_id=durak.durak_id) }}" style="text-decoration: none; color: #111; font-weight: 700;">
+                                {{ durak.durak_adi }}
+                            </a>
+                    </td>
+                    <td>{{ durak.latitude }}</td>
+                    <td>{{ durak.longitude }}</td>
+                    <td>
+                        {% if durak.aktif %}
+                        <span class="status status-active">Aktif</span> {% else %}
+                        <span class="status status-passive">Pasif</span> {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ url_for('admin_durak_detay', durak_id=durak.durak_id) }}" style="text-decoration: none; color: #111; font-weight: 600;">Detay</a> |
+                        <a href="{{ url_for('admin_durak_duzenle', durak_id=durak.durak_id) }}" style="text-decoration: none; color: #111; font-weight: 600;">Düzenle</a> |
+                        <a href="{{ url_for('admin_durak_sil', durak_id=durak.durak_id) }}" onclick="return confirm('Bu durağı silmek istediğine emin misin?')" style="text-decoration: none; color: #c0392b; font-weight: 600;">Sil</a>
+                    </td>
+                </tr>
+                {% endfor %} {% else %}
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 24px;">
+                        Henüz kayıtlı durak bulunmuyor.
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

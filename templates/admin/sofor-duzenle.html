@@ -1,0 +1,71 @@
+{% extends 'admin/base_admin.html' %} {% block title %}Şoför Düzenle{% endblock %} {% block content %}
+
+<div class="admin-page-header">
+    <div>
+        <h1>Şoför Düzenle</h1>
+        <p>{{ sofor.ad }} {{ sofor.soyad }} adlı şoförün bilgilerini güncelleyin.</p>
+    </div>
+
+    <a href="{{ url_for('admin_sofor_detay', sofor_id=sofor.sofor_id) }}" class="admin-btn-secondary">
+        Detaya Dön
+    </a>
+</div>
+
+<div class="admin-detail-card">
+    <form method="POST" action="{{ url_for('admin_sofor_duzenle', sofor_id=sofor.sofor_id) }}" class="admin-update-form">
+
+        <div class="form-row">
+            <div class="filter-group">
+                <label>Ad</label>
+                <input type="text" name="ad" value="{{ sofor.ad }}" required>
+            </div>
+
+            <div class="filter-group">
+                <label>Soyad</label>
+                <input type="text" name="soyad" value="{{ sofor.soyad }}" required>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="filter-group">
+                <label>Telefon</label>
+                <input type="text" name="telefon" value="{{ sofor.telefon or '' }}">
+            </div>
+
+            <div class="filter-group">
+                <label>Ehliyet No</label>
+                <input type="text" name="ehliyet_no" value="{{ sofor.ehliyet_no or '' }}">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="filter-group">
+                <label>Durum</label>
+                <select name="durum">
+                    <option value="Aktif" {% if sofor.durum == "Aktif" %}selected{% endif %}>Aktif</option>
+                    <option value="İzinli" {% if sofor.durum == "İzinli" %}selected{% endif %}>İzinli</option>
+                    <option value="Pasif" {% if sofor.durum == "Pasif" %}selected{% endif %}>Pasif</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Hat Ataması</label>
+                <select name="hat_id">
+                    <option value="">Hat seçilmedi</option>
+                    {% for hat in hatlar %}
+                    <option value="{{ hat[0] }}" {% if sofor.hat_id == hat[0] %}selected{% endif %}>
+                        {{ hat[1] }} - {{ hat[2] }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <button type="submit" class="admin-btn-primary">
+            Güncelle
+        </button>
+
+    </form>
+</div>
+
+{% endblock %}

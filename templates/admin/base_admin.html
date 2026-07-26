@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Panel{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div>
+                <div class="sidebar-logo">
+                    <a href="{{ url_for('admin_dashboard') }}" style="text-decoration:none;color:inherit;">
+                        <h2>Malatya Ulaşım AŞ</h2>
+                        <p>Yönetim Paneli</p>
+                    </a>
+                </div>
+
+                <nav class="sidebar-menu">
+                    <a href="{{ url_for('admin_dashboard') }}" class="sidebar-link {% if active_page == 'dashboard' %}active{% endif %}">
+                        <i class="fas fa-house"></i><span>Dashboard</span>
+                    </a>
+
+                    <a href="{{ url_for('admin_hatlar') }}" class="sidebar-link {% if active_page == 'hat_yonetimi' %}active{% endif %}">
+                        <i class="fas fa-road"></i><span>Hat Yönetimi</span>
+                    </a>
+
+                    <a href="{{ url_for('admin_duraklar') }}" class="sidebar-link {% if active_page == 'durak_yonetimi' %}active{% endif %}">
+                        <i class="fas fa-location-dot"></i><span>Durak Yönetimi</span>
+                    </a>
+
+                    <a href="{{ url_for('admin_araclar') }}" class="sidebar-link {% if active_page == 'otobus_yonetimi' %}active{% endif %}">
+                        <i class="fas fa-bus"></i><span>Otobüs Yönetimi</span>
+                    </a>
+
+                    <a href="{{ url_for('admin_soforler') }}" class="sidebar-link {% if active_page == 'sofor_yonetimi' %}active{% endif %}">
+                        <i class="fas fa-user-tie"></i><span>Şoför Yönetimi</span>
+                    </a>
+
+                    <a href="{{ url_for('admin_seferler') }}" class="sidebar-link {% if active_page == 'seferler' %}active{% endif %}">
+                        <i class="fas fa-clock"></i><span>Seferler</span>
+                    </a>
+
+                    <a href="{{ url_for('admin_duyurular') }}" class="sidebar-link {% if active_page == 'duyurular' %}active{% endif %}">
+                        <i class="fas fa-bullhorn"></i><span>Duyurular</span>
+                    </a>
+
+                    <a href="{{ url_for('admin_kullanicilar') }}" class="sidebar-link {% if active_page == 'kullanicilar' %}active{% endif %}">
+                        <i class="fas fa-users"></i><span>Kullanıcılar</span>
+                    </a>
+
+                    <a href="{{ url_for('admin_sikayet_talep') }}" class="sidebar-link {% if active_page == 'sikayet_talep' %}active{% endif %}">
+                        <i class="fas fa-circle-exclamation"></i><span>Şikayet / Talep</span>
+                    </a>
+                </nav>
+            </div>
+
+            <a href="{{ url_for('logout') }}" class="sidebar-link logout-link">
+                <i class="fas fa-right-from-bracket"></i>
+                <span>Çıkış Yap</span>
+            </a>
+        </aside>
+
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <div class="topbar-left">
+                    <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="admin-user-box">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Hoş geldin, {{ session.get('name', 'Admin') }}</span>
+                    </div>
+                </div>
+            </header>
+
+            <main class="admin-content">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>
