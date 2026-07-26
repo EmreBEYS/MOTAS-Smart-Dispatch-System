@@ -1,34 +1,35 @@
 # 🚌 MOTAS Smart Dispatch System
 
-A modern web-based public transportation management system developed as an educational and portfolio project.
+A modern web-based **Public Transportation Management System** developed with **Flask** and **PostgreSQL**.
 
-> **Disclaimer**
+> **Educational & Portfolio Project**
 >
-> This project is an independent software project developed for educational and portfolio purposes.
+> This project was developed for educational and portfolio purposes.
 > It is **not affiliated with, endorsed by, or developed by MOTAŞ**.
 
 ---
 
 # 📖 Overview
 
-MOTAS Smart Dispatch System is a web application designed to simplify the management of a city's public transportation network.
+MOTAS Smart Dispatch System is a full-stack web application that simplifies the management of urban public transportation services.
 
-The project includes both a **public information portal** and a comprehensive **administration panel** for managing transportation operations.
+The project provides both a **public passenger portal** and a comprehensive **administration panel** for managing buses, routes, drivers, stops, announcements, users, and transportation operations.
 
 ---
 
 # ✨ Features
 
-## 🌐 Public Panel
+## 🌐 Public Portal
 
-- 🚌 Bus information
+- 🚌 Bus route information
 - 🚏 Bus stop information
-- 🗺 Route information
+- 🤖 AI-assisted route recommendation
 - 📢 Announcements
-- 📞 Contact page
-- 🎒 Lost property application
+- 🔍 Route search
 - 👤 User Login
 - 📝 User Registration
+- 🎒 Lost Property Application
+- 📞 Contact Page
 
 ---
 
@@ -36,9 +37,9 @@ The project includes both a **public information portal** and a comprehensive **
 
 - 📊 Dashboard
 - 🚌 Bus Management
-- 👨‍✈️ Driver Management
 - 🚏 Bus Stop Management
 - 🗺 Route Management
+- 👨‍✈️ Driver Management
 - 🕒 Trip Scheduling
 - 📢 Announcement Management
 - 👥 User Management
@@ -69,9 +70,9 @@ The project includes both a **public information portal** and a comprehensive **
 
 # 🛠 Technologies
 
-| Technology | Usage |
-|------------|------|
-| Python | Backend |
+| Technology | Purpose |
+|------------|---------|
+| Python | Backend Development |
 | Flask | Web Framework |
 | PostgreSQL | Database |
 | SQLAlchemy | ORM |
@@ -86,20 +87,17 @@ The project includes both a **public information portal** and a comprehensive **
 ```text
 MOTAS-Smart-Dispatch-System
 │
-├── database
+├── database/
 │   └── schema.sql
 │
-├── exports
+├── docs/
+│   └── screenshots/
 │
-├── static
-│   ├── css
-│   ├── image
-│   └── js
+├── exports/
 │
-├── templates
-│   ├── admin
-│   ├── pages
-│   └── partials
+├── static/
+│
+├── templates/
 │
 ├── app.py
 ├── config.py
@@ -111,11 +109,11 @@ MOTAS-Smart-Dispatch-System
 
 # 🗄 Database
 
-The application uses **PostgreSQL**.
+The project uses **PostgreSQL** as the primary database.
 
-Database schema:
+Database schema is located in:
 
-```
+```text
 database/schema.sql
 ```
 
@@ -139,9 +137,9 @@ pip install -r requirements.txt
 
 ---
 
-## Environment Variables
+## Configure Environment
 
-Create an `ai.env` file.
+Create an **ai.env** file.
 
 Example:
 
@@ -165,20 +163,75 @@ python app.py
 
 # 📸 Screenshots
 
-Screenshots will be added in future updates.
+## 🏠 Home Page
+
+![Home](docs/screenshots/home.png)
 
 ---
 
-# 📌 Future Improvements
+## 🤖 AI Route Recommendation
+
+![AI Route](docs/screenshots/ai-route.png)
+
+---
+
+## 🚍 Transportation Services
+
+![Transportation Services](docs/screenshots/transport-services.png)
+
+---
+
+## 🚌 Route List
+
+![Routes](docs/screenshots/routes.png)
+
+---
+
+## 🚏 Bus Stop Details
+
+![Bus Stop](docs/screenshots/bus-stop-detail.png)
+
+---
+
+## 🔐 Login
+
+![Login](docs/screenshots/login.png)
+
+---
+
+## 📝 Register
+
+![Register](docs/screenshots/register.png)
+
+---
+
+## 📊 Administration Dashboard
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+---
+
+# 📌 Roadmap
+
+### Version 1.0
+
+- Public transportation portal
+- Administration panel
+- Route management
+- Bus management
+- Driver management
+- Bus stop management
+- PostgreSQL integration
+
+### Planned Features
 
 - 🤖 AI-assisted dispatch recommendations
+- 📍 Real-time vehicle tracking
+- 📊 Passenger density analysis
 - 📱 Mobile application
-- 📡 Real-time vehicle tracking
-- 📊 Passenger density analytics
-- 📈 Statistical dashboard
-- ☁ Cloud deployment
-- 🔐 Advanced authentication
 - 🌍 Multi-language support
+- ☁ Cloud deployment
+- REST API
 
 ---
 
@@ -188,28 +241,12 @@ Screenshots will be added in future updates.
 
 Computer Engineering Student
 
-GitHub
+GitHub:
 
 https://github.com/EmreBEYS
 
 ---
 
-# ⭐ Project Status
-
-Current Version
-
-```
-v1.0.0
-```
-
-Status
-
-```
-✅ Stable
-```
-
----
-
 # 📄 License
 
-This project is released under the MIT License.
+This project is licensed under the MIT License.
