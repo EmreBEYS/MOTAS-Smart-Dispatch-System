@@ -1,104 +1,67 @@
-# 🚌 MOTAS Smart Dispatch System
+# 🚌 MOTAŞ Smart Dispatch System
 
-A modern web-based **Public Transportation Management System** developed with **Flask** and **PostgreSQL**.
+A modern public transportation management system developed for **Malatya Metropolitan Municipality Transportation Services (MOTAŞ)**.
 
-> **Educational & Portfolio Project**
->
-> This project was developed for educational and portfolio purposes.
-> It is **not affiliated with, endorsed by, or developed by MOTAŞ**.
+This project was developed to digitalize urban transportation management by providing passenger services, route management, stop management, AI-assisted route planning, and an administrative control panel.
 
----
-
-# 📖 Overview
-
-MOTAS Smart Dispatch System is a full-stack web application that simplifies the management of urban public transportation services.
-
-The project provides both a **public passenger portal** and a comprehensive **administration panel** for managing buses, routes, drivers, stops, announcements, users, and transportation operations.
+> ⚠️ This project is an academic/personal portfolio project and is **not an official MOTAŞ application**.
 
 ---
 
-# ✨ Features
+# 🚀 Features
 
-## 🌐 Public Portal
+## Passenger Side
 
+- 🏠 Modern responsive homepage
+- 🤖 AI-assisted route recommendation
 - 🚌 Bus route information
 - 🚏 Bus stop information
-- 🤖 AI-assisted route recommendation
-- 📢 Announcements
-- 🔍 Route search
-- 👤 User Login
-- 📝 User Registration
-- 🎒 Lost Property Application
-- 📞 Contact Page
+- 🔍 Search system
+- 📢 Announcement system
+- 🔑 User registration & login
+- 📱 Mobile-friendly interface
 
 ---
 
-## 🔐 Administration Panel
+## Administration Panel
 
-- 📊 Dashboard
-- 🚌 Bus Management
-- 🚏 Bus Stop Management
-- 🗺 Route Management
-- 👨‍✈️ Driver Management
-- 🕒 Trip Scheduling
-- 📢 Announcement Management
-- 👥 User Management
-- 📝 Complaint & Request Management
-
----
-
-# 🏗 System Architecture
-
-```text
-                Users
-                   │
-                   ▼
-          Flask Web Application
-                   │
-     ┌─────────────┼─────────────┐
-     │             │             │
- Templates      Static Files   Admin Panel
-     │             │             │
-     └─────────────┼─────────────┘
-                   │
-             SQLAlchemy ORM
-                   │
-             PostgreSQL Database
-```
+- Dashboard
+- Route Management
+- Stop Management
+- Bus Management
+- Driver Management
+- Trip Scheduling
+- Announcement Management
+- User Management
+- Complaint Management
 
 ---
 
 # 🛠 Technologies
 
-| Technology | Purpose |
-|------------|---------|
-| Python | Backend Development |
-| Flask | Web Framework |
-| PostgreSQL | Database |
-| SQLAlchemy | ORM |
-| HTML5 | Frontend |
-| CSS3 | Styling |
-| JavaScript | Client-side |
+- Python
+- Flask
+- HTML5
+- CSS3
+- JavaScript
+- PostgreSQL
+- SQLAlchemy
+- Bootstrap
+- OpenAI API
 
 ---
 
-# 📂 Project Structure
+# 📁 Project Structure
 
-```text
-MOTAS-Smart-Dispatch-System
+```
+BusWebSite/
 │
 ├── database/
-│   └── schema.sql
-│
 ├── docs/
 │   └── screenshots/
-│
 ├── exports/
-│
 ├── static/
-│
 ├── templates/
-│
 ├── app.py
 ├── config.py
 ├── requirements.txt
@@ -107,53 +70,87 @@ MOTAS-Smart-Dispatch-System
 
 ---
 
-# 🗄 Database
+# 📸 Screenshots
 
-The project uses **PostgreSQL** as the primary database.
+## Homepage
 
-Database schema is located in:
-
-```text
-database/schema.sql
-```
+![Homepage](docs/screenshots/home.PNG)
 
 ---
 
-# 🚀 Installation
+## Homepage Services
 
-## Clone Repository
+![Services](docs/screenshots/home2.JPG)
+
+---
+
+## Login Page
+
+![Login](docs/screenshots/login.JPG)
+
+---
+
+## Register Page
+
+![Register](docs/screenshots/register.JPG)
+
+---
+
+## Bus Routes
+
+![Routes](docs/screenshots/station.JPG)
+
+---
+
+## Bus Stop Details
+
+![Bus Stop](docs/screenshots/stationdetails.JPG)
+
+---
+
+## Admin Dashboard
+
+![Admin](docs/screenshots/admin.JPG)
+
+---
+
+## Footer
+
+![Footer](docs/screenshots/footee.PNG)
+
+---
+
+# ⚙️ Installation
+
+Clone the repository
 
 ```bash
 git clone git@github.com:EmreBEYS/MOTAS-Smart-Dispatch-System.git
 ```
 
----
-
-## Install Requirements
+Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+Create an environment file
 
-## Configure Environment
+```
+ai.env
+```
 
-Create an **ai.env** file.
-
-Example:
+Example
 
 ```env
 SECRET_KEY=your_secret_key
 
 DATABASE_URL=postgresql://username:password@localhost:5432/busweb
 
-OPENAI_API_KEY=your_api_key
+OPENAI_API_KEY=your_openai_api_key
 ```
 
----
-
-## Run
+Run
 
 ```bash
 python app.py
@@ -161,77 +158,15 @@ python app.py
 
 ---
 
-# 📸 Screenshots
+# 📌 Future Improvements
 
-## 🏠 Home Page
-
-![Home](docs/screenshots/home.png)
-
----
-
-## 🤖 AI Route Recommendation
-
-![AI Route](docs/screenshots/ai-route.png)
-
----
-
-## 🚍 Transportation Services
-
-![Transportation Services](docs/screenshots/transport-services.png)
-
----
-
-## 🚌 Route List
-
-![Routes](docs/screenshots/routes.png)
-
----
-
-## 🚏 Bus Stop Details
-
-![Bus Stop](docs/screenshots/bus-stop-detail.png)
-
----
-
-## 🔐 Login
-
-![Login](docs/screenshots/login.png)
-
----
-
-## 📝 Register
-
-![Register](docs/screenshots/register.png)
-
----
-
-## 📊 Administration Dashboard
-
-![Dashboard](docs/screenshots/dashboard.png)
-
----
-
-# 📌 Roadmap
-
-### Version 1.0
-
-- Public transportation portal
-- Administration panel
-- Route management
-- Bus management
-- Driver management
-- Bus stop management
-- PostgreSQL integration
-
-### Planned Features
-
-- 🤖 AI-assisted dispatch recommendations
-- 📍 Real-time vehicle tracking
-- 📊 Passenger density analysis
-- 📱 Mobile application
-- 🌍 Multi-language support
-- ☁ Cloud deployment
-- REST API
+- Live vehicle tracking
+- Passenger density prediction
+- Traffic analysis
+- Real-time notifications
+- Mobile application
+- GIS integration
+- AI-supported dispatch optimization
 
 ---
 
@@ -241,7 +176,7 @@ python app.py
 
 Computer Engineering Student
 
-GitHub:
+GitHub
 
 https://github.com/EmreBEYS
 
@@ -249,4 +184,4 @@ https://github.com/EmreBEYS
 
 # 📄 License
 
-This project is licensed under the MIT License.
+This repository is published for educational and portfolio purposes.
